@@ -1,8 +1,11 @@
 ﻿<Application x:Class="ht.ihsi.rgph.epc.supervision.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainWindow.xaml">
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+             StartupUri="/views/MainFrame.xaml" Startup="OnAppStartup_UpdateThemeName">
     <Application.Resources>
-         
+        <Style TargetType="dxr:DXRibbonWindowTitlePanel">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Application.Resources>
 </Application>
