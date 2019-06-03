@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=D:\WORKSPACE\CSHARP\DESKSTOP_APPLICATION\AppSuperviseurEpc\App\ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.database\data\rgph_epc-db.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Agent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeUtilisateur" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Prenom" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="MotDePasse" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Sexe" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Nif" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Cin" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Email" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="Tbl_Materiel">
+          <Key>
+            <PropertyRef Name="MaterielId" />
+          </Key>
+          <Property Name="MaterielId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imei" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Serial" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Model" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Version" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="AgentId" Type="integer" />
+          <Property Name="DateAssignation" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="IsConfigured" Type="integer" />
+          <Property Name="LastSynchronisation" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="Tbl_Sde">
+          <Key>
+            <PropertyRef Name="SdeId" />
+          </Key>
+          <Property Name="SdeId" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="CodeDistrict" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="DeptId" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="ComId" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="AgentId" Type="integer" />
+          <Property Name="NoOrdre" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="Tbl_Utilisateur">
+          <Key>
+            <PropertyRef Name="UtilisateurId" />
+          </Key>
+          <Property Name="UtilisateurId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeUtilisateur" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Prenom" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="MotDePasse" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Statut" Type="integer" />
+          <Property Name="ProfileId" Type="integer" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Tbl_Agent" EntityType="Self.Tbl_Agent" store:Type="Tables" />
+          <EntitySet Name="Tbl_Materiel" EntityType="Self.Tbl_Materiel" store:Type="Tables" />
+          <EntitySet Name="Tbl_Sde" EntityType="Self.Tbl_Sde" store:Type="Tables" />
+          <EntitySet Name="Tbl_Utilisateur" EntityType="Self.Tbl_Utilisateur" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_Agent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeUtilisateur" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Nom" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Prenom" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="MotDePasse" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Sexe" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Nif" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Cin" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tbl_Sde">
+          <Key>
+            <PropertyRef Name="SdeId" />
+          </Key>
+          <Property Name="SdeId" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodeDistrict" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="DeptId" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="ComId" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int64" />
+          <Property Name="NoOrdre" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tbl_Utilisateur">
+          <Key>
+            <PropertyRef Name="UtilisateurId" />
+          </Key>
+          <Property Name="UtilisateurId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeUtilisateur" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Nom" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Prenom" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="MotDePasse" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Statut" Type="Int64" />
+          <Property Name="ProfileId" Type="Int64" />
+        </EntityType>
+        <EntityContainer Name="SupEpcContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_Agent" EntityType="Self.Tbl_Agent" />
+          <EntitySet Name="Tbl_Sde" EntityType="Self.Tbl_Sde" />
+          <EntitySet Name="Tbl_Utilisateur" EntityType="Self.Tbl_Utilisateur" />
+          <EntitySet Name="Tbl_Materiel" EntityType="Model.Tbl_Materiel" />
+        </EntityContainer>
+        <EntityType Name="Tbl_Materiel">
+          <Key>
+            <PropertyRef Name="MaterielId" />
+          </Key>
+          <Property Name="MaterielId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imei" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Serial" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int64" />
+          <Property Name="DateAssignation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfigured" Type="Int64" />
+          <Property Name="LastSynchronisation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="SupEpcContext">
+          <EntitySetMapping Name="Tbl_Agent">
+            <EntityTypeMapping TypeName="Model.Tbl_Agent">
+              <MappingFragment StoreEntitySet="Tbl_Agent">
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="CodeUtilisateur" ColumnName="CodeUtilisateur" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="MotDePasse" ColumnName="MotDePasse" />
+                <ScalarProperty Name="Sexe" ColumnName="Sexe" />
+                <ScalarProperty Name="Nif" ColumnName="Nif" />
+                <ScalarProperty Name="Cin" ColumnName="Cin" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Sde">
+            <EntityTypeMapping TypeName="Model.Tbl_Sde">
+              <MappingFragment StoreEntitySet="Tbl_Sde">
+                <ScalarProperty Name="SdeId" ColumnName="SdeId" />
+                <ScalarProperty Name="CodeDistrict" ColumnName="CodeDistrict" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="NoOrdre" ColumnName="NoOrdre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Utilisateur">
+            <EntityTypeMapping TypeName="Model.Tbl_Utilisateur">
+              <MappingFragment StoreEntitySet="Tbl_Utilisateur">
+                <ScalarProperty Name="UtilisateurId" ColumnName="UtilisateurId" />
+                <ScalarProperty Name="CodeUtilisateur" ColumnName="CodeUtilisateur" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="MotDePasse" ColumnName="MotDePasse" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Materiel">
+            <EntityTypeMapping TypeName="Model.Tbl_Materiel">
+              <MappingFragment StoreEntitySet="Tbl_Materiel">
+                <ScalarProperty Name="LastSynchronisation" ColumnName="LastSynchronisation" />
+                <ScalarProperty Name="IsConfigured" ColumnName="IsConfigured" />
+                <ScalarProperty Name="DateAssignation" ColumnName="DateAssignation" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Imei" ColumnName="Imei" />
+                <ScalarProperty Name="MaterielId" ColumnName="MaterielId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

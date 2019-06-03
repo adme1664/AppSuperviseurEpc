@@ -18,17 +18,60 @@
             <dxr:RibbonDefaultPageCategory Color="White" Name="rpc_sdes">
                         <dxr:RibbonPage Caption="SDES" >
                             <dxr:RibbonPageGroup>
-                                <dxb:BarCheckItem Name="bbc_synchronisation" Content="Synchronisation" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/tb_pc.png"  />
+                                <dxb:BarCheckItem Name="bbc_synchronisation" Content="Synchronisation" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/tb_pc.png" ItemClick="bbc_synchronisation_ItemClick"  />
                             </dxr:RibbonPageGroup>
                             <dxr:RibbonPageGroup>
                                 <dxb:BarCheckItem Name="bbc_verification" Content="Verification" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/vi2.png"  />
                             </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup>
-                        <dxb:BarCheckItem Name="bbc_affichage" Content="Verification" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/tb.png"  />
+                        <dxb:BarCheckItem Name="bbc_affichage" Content="Affichage" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/tb.png" ItemClick="bbc_affichage_ItemClick"  />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                     </dxr:RibbonDefaultPageCategory>
-                </dxr:RibbonControl>
+            <dxr:RibbonPageCategory Name="rpc_transfert" Color="White">
+                <dxr:RibbonPage Caption="TRANSFERTS" Name="page_transfret">
+                    <dxr:RibbonPageGroup>
+                        <dxb:BarCheckItem x:Name="bbi_transfert" Content="Transfert de données" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/trans.png" RibbonStyle="Large"  />
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonPageCategory>
+            <dxr:RibbonPageCategory x:Name="rpc_tab_bord" Color="White">
+                <dxr:RibbonPage Caption="CONFIGURATIONS" Name="page_configuration">
+                    <dxr:RibbonPageGroup ToolTip="Configurations">
+                        <dxb:BarCheckItem x:Name="bbi_agents" Content="Tablettes" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/tab_settings.png" />
+                        <dxb:BarItemSeparator/>
+                        <dxb:BarCheckItem x:Name="bbi_avances" Content="Avancées" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/portable_setting.png"  />
+                        <dxb:BarItemSeparator/>
+                        <dxb:BarItemSeparator/>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonPageCategory>
+            <dxr:RibbonControl.PageHeaderItems>
+
+                <dxb:BarStaticItem Name="stConnexion" Content="{Binding}" ToolTip="Se Connecter" Cursor="Hand">
+                    <dxb:BarStaticItem.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Username }" >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+                                                <Setter Property="Foreground" Value="#FF44B2FF" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </dxb:BarStaticItem.ContentTemplate>
+                </dxb:BarStaticItem>
+                <dxb:BarSubItem Name="bsiIsConnecter" AllowGlyphTheming="False" BarItemDisplayMode="Content" GlyphAlignment="Top" MergeType="MergeItems" />
+                <dxb:BarButtonItem Name="biConnexion" Content="Connexion" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/individu1.png" RibbonStyle="Default" Glyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/user.png" />
+
+
+            </dxr:RibbonControl.PageHeaderItems>
+        </dxr:RibbonControl>
                 <dxr:RibbonStatusBarControl Grid.Row="2">
                     
                 </dxr:RibbonStatusBarControl>
@@ -36,6 +79,8 @@
             <dx:LoadingDecorator Name="main_grid_1" IsSplashScreenShown="false" SplashScreenLocation="CenterScreen">
             </dx:LoadingDecorator>
         </Grid>
-           </Grid>
+        <Label Content="Utilisateur connecté:" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="117" Foreground="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Height="22"/>
+        <TextBlock HorizontalAlignment="Left" Name="txt_connecteduser" Margin="145,3,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="406" Foreground="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" FontStyle="Italic" Height="16" Grid.ColumnSpan="2"/>
+       </Grid>
     
 </dxr:DXRibbonWindow>

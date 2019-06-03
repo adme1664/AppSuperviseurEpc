@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ht.ihsi.rgph.epc.supervision", "ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.supervision.csproj", "{F579CD70-7E40-4C91-BE12-58206D60F408}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ht.ihsi.rgph.epc.database", "ht.ihsi.rgph.epc.database\ht.ihsi.rgph.epc.database.csproj", "{34520237-B7A9-4CFF-B4FD-AEC7A49E8DA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F579CD70-7E40-4C91-BE12-58206D60F408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F579CD70-7E40-4C91-BE12-58206D60F408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F579CD70-7E40-4C91-BE12-58206D60F408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34520237-B7A9-4CFF-B4FD-AEC7A49E8DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34520237-B7A9-4CFF-B4FD-AEC7A49E8DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34520237-B7A9-4CFF-B4FD-AEC7A49E8DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34520237-B7A9-4CFF-B4FD-AEC7A49E8DA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
