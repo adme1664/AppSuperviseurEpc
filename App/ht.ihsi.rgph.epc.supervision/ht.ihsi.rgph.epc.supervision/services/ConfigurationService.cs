@@ -125,7 +125,7 @@ namespace ht.ihsi.rgph.epc.supervision.services
         #region PERSONNES   
         public bool savePersonne(database.entities.tbl_personnel person)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool ifPersonExist(database.entities.tbl_personnel person)
@@ -234,7 +234,7 @@ namespace ht.ihsi.rgph.epc.supervision.services
 
         public List<MaterielModel> SearchMateriels()
         {
-            throw new NotImplementedException();
+            return ModelMapper.MapTo(daoConfiguration.searchMateriels());
         }
 
         public bool saveMateriel(database.entities.Tbl_Materiel materiel)
@@ -273,7 +273,7 @@ namespace ht.ihsi.rgph.epc.supervision.services
             try
             {
                 MaterielModel mat = ModelMapper.MapTo(daoConfiguration.getMateriels(serial));
-                if (mat != null)
+                if (mat.AgentId.GetValueOrDefault() != 0)
                 {
                     return true;
                 }

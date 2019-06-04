@@ -245,44 +245,62 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
                                || question.typeQuestion == 19
                                || question.typeQuestion == 23)
                            {
-                               if (nomChamps == property.Name)
+                               if (property != null)
                                {
-                                   if (question.detailsQuestion != "")
+                                   if (nomChamps == property.Name)
                                    {
-                                       if (obj.GetType().GetProperty(property.Name).GetValue(obj) != null)
+                                       if (question.detailsQuestion != "")
                                        {
-                                           if (tcq.categorieQuestion != "" && tcq.detailsCategorie != "")
+                                           if (obj.GetType().GetProperty(property.Name).GetValue(obj) != null)
                                            {
-                                               reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower() + "__________________:" + question.detailsQuestion), obj.GetType().GetProperty(property.Name).GetValue(obj).ToString(), tcq.detailsCategorie));
+                                               if (tcq.categorieQuestion != "" && tcq.detailsCategorie != "")
+                                               {
+                                                   reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower() + "__________________:" + question.detailsQuestion), obj.GetType().GetProperty(property.Name).GetValue(obj).ToString(), tcq.detailsCategorie));
+                                               }
+                                               else
+                                               {
+                                                   reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower() + "__________________:" + question.detailsQuestion), obj.GetType().GetProperty(property.Name).GetValue(obj).ToString(), tcq.categorieQuestion));
+                                               }
                                            }
-                                           else
-                                           {
-                                               reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower() + "__________________:" + question.detailsQuestion), obj.GetType().GetProperty(property.Name).GetValue(obj).ToString(), tcq.categorieQuestion));
-                                           }
-                                       }
-                                   }
-                                   else
-                                   {
-                                       if (tcq.categorieQuestion != "" && tcq.detailsCategorie != "")
-                                       {
-                                           string reponse = "";
-                                           if (obj.GetType().GetProperty(property.Name).GetValue(obj) == null)
-                                               reponse = "";
-                                           else
-                                               reponse = obj.GetType().GetProperty(property.Name).GetValue(obj).ToString();
-
-                                           reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower()), reponse, tcq.detailsCategorie));
                                        }
                                        else
                                        {
-                                           string reponse = "";
-                                           if (obj.GetType().GetProperty(property.Name).GetValue(obj).ToString() == null)
-                                               reponse = "";
+                                           if (tcq.categorieQuestion != "" && tcq.detailsCategorie != "")
+                                           {
+                                               string reponse = "";
+                                               if (obj.GetType().GetProperty(property.Name).GetValue(obj) == null)
+                                                   reponse = "";
+                                               else
+                                                   reponse = obj.GetType().GetProperty(property.Name).GetValue(obj).ToString();
+
+                                               reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower()), reponse, tcq.detailsCategorie));
+                                           }
                                            else
-                                               reponse = obj.GetType().GetProperty(property.Name).GetValue(obj).ToString();
-                                           reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower()), reponse, tcq.categorieQuestion));
+                                           {
+                                               string reponse = "";
+                                               if (obj.GetType().GetProperty(property.Name).GetValue(obj).ToString() == null)
+                                                   reponse = "";
+                                               else
+                                                   reponse = obj.GetType().GetProperty(property.Name).GetValue(obj).ToString();
+                                               reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion + "-" + question.libelle.ToLower()), reponse, tcq.categorieQuestion));
+                                           }
                                        }
                                    }
+                               }
+                               
+                               else
+                               {
+                                   if (nomChamps == "qp5JourMoisAnneeDateNaissance")
+                                   {
+                                       IndividuModel ind = obj as IndividuModel;
+                                       reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion+"-"+question.libelle.ToLower()),ind.q7DateNaissanceJour+"-"+ind.q7DateNaissanceMois+"-"+ind.q7DateNaissanceAnnee,tcq.categorieQuestion));
+                                   }
+                                   if (nomChamps == "q6bJourMoisAnneeDateMembreMenage")
+                                   {
+                                       IndividuModel ind = obj as IndividuModel;
+                                       reponses.Add(new DataDetails(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(question.codeQuestion+"-"+question.libelle.ToLower()),ind.q6bDateMembreMenageJour+"-"+ind.q6bDateMembreMenageJour+"-"+ind.q6bDateMembreMenageAnnee,tcq.categorieQuestion));
+                                   }
+
                                }
                            }
                        }

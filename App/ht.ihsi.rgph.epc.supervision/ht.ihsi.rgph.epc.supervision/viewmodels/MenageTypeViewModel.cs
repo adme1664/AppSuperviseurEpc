@@ -37,11 +37,19 @@ namespace ht.ihsi.rgph.epc.supervision.viewmodels
         }
         protected override void LoadChildren()
         {
-            foreach (MenageDetailsModel m in _parentView.service.getDetailsMenage(_parentView.Model, _model))
+            try
             {
-                m.SdeId = _model.SdeId;
-                base.Children.Add(new MenageDetailsViewModel(m, this));
+                foreach (MenageDetailsModel m in _parentView.service.getDetailsMenage(_parentView.Model, _model))
+                {
+                    m.SdeId = _model.SdeId;
+                    base.Children.Add(new MenageDetailsViewModel(m, this));
+                }
             }
+            catch (Exception e)
+            {
+
+            }
+           
         }
     }
 }

@@ -141,7 +141,7 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         public static string MSG_TRANSFERT_TERMINE = "Transfè a fèt avèk siksè.";
         public static string MSG_TABLET_PAS_CONNECTE = "Pa gen tablèt ki konekte.";
         public static string MSG_FICHIER_PAS_COPIE = "Fichye yo pa kopye. Eseye ankò";
-        public static string WINDOW_TITLE = "IHSI-RGPH-EPC[2018]";
+        public static string WINDOW_TITLE = "IHSI-RGPH-EPC[2019]";
         public static int TRANSFERT_MOBILE = 1;
         public static int TRANSFERT_PC = 2;
         public static string MSG_TABLET_PAS_CONFIGURE = "Tablèt sa a poko konfigire.";
@@ -150,7 +150,7 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         public static string STR_TYPE_RAPO_FINAL = "Rapò final";
         #endregion     
  
-        #region MODLES
+        #region MODELS
         public static string OBJET_BATIMENT = "ht.ihsi.rgph.epc.supervision.models.BatimentModel";
         public static string OBJET_LOGEMENT = "ht.ihsi.rgph.epc.supervision.models.LogementModel";
         public static string OBJET_ANSYEN_MODEL = "ht.ihsi.rgph.epc.supervision.models.AncienMembreModel";

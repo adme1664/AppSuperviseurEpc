@@ -30,9 +30,9 @@ namespace ht.ihsi.rgph.epc.supervision.views
     /// </summary>
     public partial class frm_pop_up_transfert : Window
     {
-        private static string MAIN_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RgphData\Data\Databases\";
-        private static string TEMP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RgphData\Temp";
-        private static string BACKUP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RgphData\Backup\";
+        private static string MAIN_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Data\Databases\EPC\";
+        private static string TEMP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Temp\EPC\";
+        private static string BACKUP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Backup\EPC\";
         private static string APP_DIRECTORY_PATH = AppDomain.CurrentDomain.BaseDirectory;
         private static string CLASSNAME = "frm_pop_up_transfert";
         private DeviceManager device;
@@ -88,6 +88,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
                     info = dev.getDeviceInformation();
                     Users.users.SupDatabasePath = AppDomain.CurrentDomain.BaseDirectory + @"Data\";
                     settings = new ConfigurationService();
+                    mat = settings.getMateriel(info.Serial);
                     sdeId = settings.getSdeByAgent(mat.AgentId.GetValueOrDefault()).SdeId;
                         prgb_trans_pda.Dispatcher.BeginInvoke((Action)(() => prgb_trans_pda.Value = 30));
                         lbl_trans.Dispatcher.BeginInvoke((Action)(() => lbl_trans.Content = "Transfert des fichiers... "));
@@ -111,7 +112,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
                         prgb_trans_pda.Dispatcher.BeginInvoke((Action)(() => prgb_trans_pda.Value = 40));
                         if (copied == true)
                         {
-                            string db_backup = BACKUP_DATABASE_PATH + @"\\" + sdeId + "\\";
+                            string db_backup = BACKUP_DATABASE_PATH + "" + sdeId + "\\";
                             if (!Directory.Exists(db_backup))
                             {
                                 Directory.CreateDirectory(db_backup);
@@ -119,7 +120,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
                             //
                             if (Directory.GetDirectories(TEMP_DATABASE_PATH).Length != 0)
                             {
-                                TEMP_DATABASE_PATH = TEMP_DATABASE_PATH + @"\rgph_db\";
+                                TEMP_DATABASE_PATH = TEMP_DATABASE_PATH + "rgph_epc_db";
                             }
                             //
                             string[] files = Directory.GetFiles(TEMP_DATABASE_PATH);

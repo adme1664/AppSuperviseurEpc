@@ -191,6 +191,7 @@
     <Compile Include="models\QuestionReponseModel.cs" />
     <Compile Include="models\RapportFinalModel.cs" />
     <Compile Include="models\SdeModel.cs" />
+    <Compile Include="models\TextModel.cs" />
     <Compile Include="models\UtilisateurModel.cs" />
     <Compile Include="MVVM\TreeViewItemViewModel.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />

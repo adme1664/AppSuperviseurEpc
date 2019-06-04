@@ -29,7 +29,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
     public partial class frm_view_agents : UserControl
     {
         //public string ConfDir = "" + System.Windows.Forms + "\\Data\\Configuration";
-        private static string MAIN_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Data\Databases\EPC";
+        private static string MAIN_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Data\Databases\EPC\";
         private static string TEMP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Temp\EPC\";
         private static string BACKUP_DATABASE_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RgphData\Backup\EPC\";
         private static string APP_DIRECTORY_PATH = AppDomain.CurrentDomain.BaseDirectory;
@@ -292,7 +292,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
                                 //
                                 if (copied == true)
                                 {
-                                    string db_backup = BACKUP_DATABASE_PATH + @"\\" + sdeModel.SdeId + "\\";
+                                    string db_backup = BACKUP_DATABASE_PATH + @"" + sdeModel.SdeId + "\\";
                                     if (!Directory.Exists(db_backup))
                                     {
                                         Directory.CreateDirectory(db_backup);
@@ -301,7 +301,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
                                     //
                                     if (Directory.GetDirectories(TEMP_DATABASE_PATH).Length != 0)
                                     {
-                                        TEMP_DATABASE_PATH = TEMP_DATABASE_PATH + @"\\rgph_db";
+                                        TEMP_DATABASE_PATH = TEMP_DATABASE_PATH + "rgph_epc_db";
                                     }
 
                                     //

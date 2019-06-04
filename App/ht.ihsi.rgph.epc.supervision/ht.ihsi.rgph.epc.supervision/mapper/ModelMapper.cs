@@ -374,6 +374,7 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
                 model.Prenom = entity.Prenom;
                 model.Sexe = entity.Sexe;
                 model.Telephone = entity.Telephone;
+                model.AgentName = entity.Nom + " " + entity.Prenom;
             }
             return model;
         }
@@ -524,7 +525,7 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             return model;
         }
 
-        public static List<MaterielModel> MapToList(List<Tbl_Materiel> entities)
+        public static List<MaterielModel> MapTo(List<Tbl_Materiel> entities)
         {
             List<MaterielModel> list = new List<MaterielModel>();
             if (entities!=null)

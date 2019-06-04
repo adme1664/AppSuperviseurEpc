@@ -92,7 +92,7 @@ namespace ht.ihsi.rgph.epc.database.repositories
             {
                 if (this.materielRepository == null)
                 {
-                    this.materielRepository = new GenericRepository<Tbl_Materiel>(context);
+                    this.materielRepository = new GenericRepository<Tbl_Materiel>(this.supContext);
                 }
                 return materielRepository;
             }
