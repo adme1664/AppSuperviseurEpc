@@ -183,7 +183,8 @@ namespace ht.ihsi.rgph.epc.supervision.views
         private void bbc_verification_ItemClick(object sender, ItemClickEventArgs e)
         {
             deselectedBarItem();
-            MessageBox.Show("En cours de developpement", Constant.WINDOW_TITLE, MessageBoxButton.OK, MessageBoxImage.Information);
+            frm_view_verification frm_verification = new views.frm_view_verification();
+            Utilities.showControl(frm_verification,main_grid);
             main_grid_1.IsSplashScreenShown = false;
             bbc_verification.Focus();
         }

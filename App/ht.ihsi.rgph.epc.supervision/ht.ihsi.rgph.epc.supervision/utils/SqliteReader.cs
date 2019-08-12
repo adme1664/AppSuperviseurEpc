@@ -490,13 +490,418 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         }
         #endregion
 
+        #region DEMOGRAPHIQUE...
+        public double tailleMoyenneMenage()
+        {
+            try
+            {
+                double ind = GetAllIndividusModel().Count;
+                double men = GetAllMenagesModel().Count;
+                double res = ind / men;
+                return res;
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+        public int getTotalFemme()
+        {
+            return repository.IndividuRepository.Find(ind => ind.qp4Sexe == (int)Constant.Sexe.Fi).Count();
+        }
+
+        public int getTotalHomme()
+        {
+            return repository.IndividuRepository.Find(ind => ind.qp4Sexe == (int)Constant.Sexe.Gason).Count();
+        }
+        public float getIndiceMasculinite()
+        {
+            try
+            {
+                float indice = 0;
+                float nbreG = (float)getTotalHomme();
+                float nbreF = (float)getTotalFemme();
+                indice = nbreG / nbreF;
+                indice = indice * 100;
+                return indice;
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalMenageUnipersonnel()
+        {
+            try
+            {
+                return repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant == 1).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/getTotalMenageUnipersonnel" + ex.Message);
+            }
+            return 0;
+        }
+
+        public List<MenageModel> searchMenageUnipersonnel()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant.GetValueOrDefault() == 1).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/searchMenageUnipersonnel" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
+
+       //Retourne tous les menages ayant plus de 6 personnes
+        public List<MenageModel> searchMenage6PlusPersonne()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant >= 6 ).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/searchMenage6PlusPersonne" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
+
+        public int getTotalMenageDe6IndsEtPlus()
+        {
+            try
+            {
+                return repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant >= 6).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/getTotalMenageDe6IndsEtPlus" + ex.Message);
+            }
+            return 0;
+        }
+
+        public int getTotalFemmeChefMenage()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(i => i.q9LienDeParente == 1 && i.qp4Sexe == (int)Constant.Sexe.Fi).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/getTotalFemmeChefMenage:" + ex.Message);
+            }
+            return 0;
+        }
+
+        public int getTotalHommeChefMenage()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(i => i.q9LienDeParente == 1 && i.qp4Sexe == (int)Constant.Sexe.Gason).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/getTotalFemmeChefMenage:" + ex.Message);
+            }
+            return 0;
+        }
+        public int getTotalPersonnes15_64Ans()
+        {
+            try
+            {
+                //|| i.q8Age == Constant.AGE_PA_KONNEN
+                return repository.IndividuRepository.Find(i => i.q8Age >= 15 && i.q8Age<=64  ).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/getTotalPersonnes15_64Ans:Error=> " + ex.Message);
+            }
+            return 0;
+        }
+
+        public int getTotalPersonnes18EtPlusAns()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(i => i.q8Age >= 18 ).Count();
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/getTotalPersonnes18EtPlusAns:Error=> " + ex.Message);
+            }
+            return 0;
+        }
+        public int getTotalEnfantDeMoinsDe1Ans()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(i => i.q8Age < 1).Count();
+                //< 1 && i.isVerified == (int)Constant.StatutVerifie.PasVerifie
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/getTotalEnfantDeMoinsDe1Ans:Error=> " + ex.Message);
+            }
+            return 0;
+        }
+        public int getTotalDecesOuLaisse()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion;
+
+        #region GESTION
+        public int getTotalBatiment()
+        {
+            return repository.BatimentRepository.Find().Count();
+        }
+        public int getTotalIndividus()
+        {
+            return repository.IndividuRepository.Find().Count();
+        }
+
+        public int getTotalLogement()
+        {
+            return repository.LogementRepository.Find() .Count();
+        }
+
+        public int getTotalMenages()
+        {
+            return repository.MenageRepository.Find().Count();
+        }
+
+        public int getTotalAncienMembre()
+        {
+            return repository.AncienMembreRepository.Find().Count();
+        }
+        public double getTotalBatRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalBatRecenseParJourNV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getTotalLogeCRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getTotalLogeRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalLogeCRecenseParJourNV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalLogeIRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalLogeIRecenseParJourNV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getTotalMenageRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalMenageRecenseParJourNV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getTotalIndRecenseParJourV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalIndRecenseParJourNV()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getTotalBatRecenseV()
+        {
+            return repository.LogementRepository.Find(lo => lo.statut == (int)Constant.StatutValide.Valide).Count();
+        }
+
+        public int getTotalBatRecenseNV()
+        {
+            return repository.BatimentRepository.Find(ba => ba.statut == (int)Constant.StatutValide.PasValide).Count();
+        }
+
+        public int getTotalLogeIRecenseV()
+        {
+            return repository.LogementRepository.Find(lo => lo.statut == (int)Constant.StatutValide.Valide).Count();
+        }
+
+        public int getTotalLogeIRecenseNV()
+        {
+            try
+            {
+                return repository.LogementRepository.Find(lo => lo.statut == (int)Constant.StatutValide.PasValide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalMenageRecenseV()
+        {
+            try
+            {
+                return repository.MenageRepository.Find(anc => anc.statut == (int)Constant.StatutValide.Valide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalMenageRecenseNV()
+        {
+            try
+            {
+                return repository.MenageRepository.Find(anc => anc.statut == (int)Constant.StatutValide.PasValide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalIndRecenseV()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(ind=>ind.statut==(int)Constant.StatutValide.Valide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalIndRecenseNV()
+        {
+            try
+            {
+                return repository.IndividuRepository.Find(ind => ind.statut == (int)Constant.StatutValide.PasValide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalAncienMembreV()
+        {
+            try
+            {
+                return repository.AncienMembreRepository.Find(anc => anc.statut == (int)Constant.StatutValide.Valide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalAncienMembreNV()
+        {
+            try
+            {
+                return repository.AncienMembreRepository.Find(anc => anc.statut == (int)Constant.StatutValide.Valide).Count();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return 0;
+        }
+
+        public int getTotalBatRecenseTermine()
+        {
+            return repository.BatimentRepository.Find(obj => obj.statut == (int)Constant.StatutModule.Fini).Count();
+        }
+
+        public int getTotalBatRecenseNTermine()
+        {
+            return repository.BatimentRepository.Find(obj => obj.statut == (int)Constant.StatutModule.PasFini || obj.statut == (int)Constant.StatutModule.MalRempli).Count();
+        }
+
+        public int getTotalLogeIRecenseTermine()
+        {
+            return repository.LogementRepository.Find(obj => obj.statut == (int)Constant.StatutModule.Fini).Count();
+        }
+
+        public int getTotalLogeIRecenseNTermine()
+        {
+            return repository.LogementRepository.Find(obj => obj.statut == (int)Constant.StatutModule.PasFini || obj.statut == (int)Constant.StatutModule.MalRempli).Count();
+        }
+
+        public int getTotalMenageRecenseTermine()
+        {
+            return repository.MenageRepository.Find(obj => obj.statut == (int)Constant.StatutModule.Fini).Count();
+        }
+
+        public int getTotalMenageRecenseNTermine()
+        {
+            return repository.MenageRepository.Find(obj => obj.statut == (int)Constant.StatutModule.PasFini || obj.statut == (int)Constant.StatutModule.MalRempli).Count();
+        }
+
+        public int getTotalIndRecenseTermine()
+        {
+            return repository.IndividuRepository.Find(obj => obj.statut == (int)Constant.StatutModule.Fini).Count();
+        }
+
+        public int getTotalIndRecenseNTermine()
+        {
+            return repository.IndividuRepository.Find(obj => obj.statut == (int)Constant.StatutModule.PasFini || obj.statut == (int)Constant.StatutModule.MalRempli).Count();
+        }
+
+        public int getTotalAncienMembreTermine()
+        {
+            return repository.AncienMembreRepository.Find(obj => obj.statut == (int)Constant.StatutModule.Fini).Count();
+        }
+
+        public int getTotalAncienMembreNTermine()
+        {
+            return repository.AncienMembreRepository.Find(obj => obj.statut == (int)Constant.StatutModule.PasFini || obj.statut == (int)Constant.StatutModule.MalRempli).Count();
+        }
+        #endregion
 
 
 
 
-
-
-
-      
+        
    }
 }

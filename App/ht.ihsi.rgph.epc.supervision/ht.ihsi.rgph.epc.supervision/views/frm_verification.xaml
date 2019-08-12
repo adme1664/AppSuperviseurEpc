@@ -1,0 +1,880 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" 
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
+             x:Class="ht.ihsi.rgph.epc.supervision.views.frm_verification"
+            mc:Ignorable="d" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+    <UserControl.Resources>
+        <Style TargetType="dxg:GridColumn">
+            <Setter Property="ReadOnly" Value="True"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <dx:LoadingDecorator Name="decorator" IsSplashScreenShown="false" SplashScreenLocation="CenterScreen">
+        </dx:LoadingDecorator>
+        <!-- Height="643.55" Width="700"-->
+        <dx:DXTabControl>
+            <dx:DXTabItem Header="Tableau de bord">
+                <dx:DXTabControl>
+                    <dx:DXTabItem Header="TRONC COMMUN">
+                        <dx:DXTabControl>
+                            <dx:DXTabItem Header="Indicateurs de couverture" Name="tabIndCouverture"  Focusable="True" GotFocus="tabIndCouverture_GotFocus">
+                                <!--GotFocus="tabIndCouverture_GotFocus"-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="58*"/>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="56*"/>
+                                    </Grid.RowDefinitions>
+                                    <dxg:GridControl  AutoGenerateColumns="AddNew"  EnableSmartColumnsGeneration="True" Grid.Row="0" Name="dataGridCouverture" SelectionMode="Row">
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView Name="table_couverture"  AllowPerPixelScrolling="True" ShowTotalSummary="True" AllowEditing="False" NavigationStyle="Row" ShowGroupPanel="False"/>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                    <dxc:ChartControl Grid.Row="2" AnimationMode="OnLoad">
+                                        <dxc:ChartControl.Legend>
+                                            <dxc:Legend/>
+                                        </dxc:ChartControl.Legend>
+                                        <dxc:XYDiagram2D  >
+                                            <dxc:BarSideBySideSeries2D LegendTextPattern=" {A}: {V}" BarWidth="1" DisplayName="Series 1" x:Name="barSeriesIndCouverture" ColorEach="True" Margin="0,0,-28,0">
+                                                <dxc:BarSideBySideSeries2D.Model>
+                                                    <dxc:Quasi3DBar2DModel/>
+                                                </dxc:BarSideBySideSeries2D.Model>
+                                            </dxc:BarSideBySideSeries2D>
+                                        </dxc:XYDiagram2D>
+                                    </dxc:ChartControl>
+                                </Grid>
+                            </dx:DXTabItem>
+                            <dx:DXTabItem Header="Indicateurs socio-demographiques" Name="tabSocioDemographiques"  Height="22" VerticalAlignment="Top" GotFocus="tabSocioDemographiques_GotFocus">
+                                
+                                <Grid>
+                                    <dx:WaitIndicator x:Name="waitIndicator" DeferedVisibility="false" Margin="231,106,-211,-156" RenderTransformOrigin="0.496,0.429">
+                                        <dx:WaitIndicator.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="Fè yon ti tann..." FontSize="20"/>
+                                                    <TextBlock Text="{Binding}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </dx:WaitIndicator.ContentTemplate>
+                                    </dx:WaitIndicator>
+                                    <dx:DXTabControl Name="tabControDemographiques">
+                                        <dx:DXTabItem Header="Page 1" Margin="0,3,0,-3" Name="tabPageDemo1">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="166*"/>
+                                                    <RowDefinition Height="13*"/>
+                                                    <RowDefinition Height="197*"/>
+                                                </Grid.RowDefinitions>
+                                                <dxc:ChartControl Grid.Row="0" AnimationMode="OnLoad">
+                                                    <dxc:ChartControl.Legend>
+                                                        <dxc:Legend Visibility="Visible"/>
+                                                    </dxc:ChartControl.Legend>
+                                                    <dxc:XYDiagram2D  Width="450">
+                                                        <dxc:BarSideBySideSeries2D LegendTextPattern="{} {A}: {V}" BarWidth="1" Width="350" DisplayName="Series 1" Name="barSeriesProportionsDetails" ColorEach="True" Height="232" Margin="0,0,-340,0">
+                                                            <dxc:BarSideBySideSeries2D.Model>
+                                                                <dxc:Quasi3DBar2DModel/>
+                                                            </dxc:BarSideBySideSeries2D.Model>
+                                                        </dxc:BarSideBySideSeries2D>
+                                                    </dxc:XYDiagram2D>
+                                                </dxc:ChartControl>
+
+                                                <dxc:ChartControl  Grid.Row="2" AnimationMode="OnLoad">
+                                                    <dxc:ChartControl.Legend>
+                                                        <dxc:Legend Visibility="Visible"/>
+                                                    </dxc:ChartControl.Legend>
+                                                    <dxc:ChartControl.Diagram>
+                                                        <dxc:SimpleDiagram2D Margin="0,-1,0,-9">
+                                                            <dxc:SimpleDiagram2D.Series>
+                                                                <dxc:PieSeries2D Width="150" HoleRadiusPercent="0" Name="pieSeriesNbreFemmes" Height="66" Margin="6,0,56,0" LabelsVisibility="True" ToolTipEnabled="True" >
+                                                                    <dxc:PieSeries2D.PointAnimation>
+                                                                        <dxc:Pie2DFlyInAnimation />
+                                                                    </dxc:PieSeries2D.PointAnimation>
+                                                                    <dxc:PieSeries2D.Label>
+                                                                        <dxc:SeriesLabel Visible="True" dxc:PieSeries.LabelPosition="TwoColumns" RenderMode="RectangleConnectedToCenter" TextPattern="{}{A}: {V}"/>
+                                                                    </dxc:PieSeries2D.Label>
+                                                                    <dxc:PieSeries2D.PointOptions>
+                                                                        <dxc:PointOptions>
+                                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                                <dxc:NumericOptions Format="Number" Precision="0"/>
+                                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                                        </dxc:PointOptions>
+                                                                    </dxc:PieSeries2D.PointOptions>
+                                                                    <dxc:PieSeries2D.LegendPointOptions>
+                                                                        <dxc:PointOptions Pattern="{}{A}: {V}" />
+                                                                    </dxc:PieSeries2D.LegendPointOptions>
+                                                                </dxc:PieSeries2D>
+                                                            </dxc:SimpleDiagram2D.Series>
+                                                        </dxc:SimpleDiagram2D>
+                                                    </dxc:ChartControl.Diagram>
+                                                </dxc:ChartControl>
+                                            </Grid>
+                                        </dx:DXTabItem>
+                                        <dx:DXTabItem Header="Page 2" Name="tabPageDemo3">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="89*"/>
+                                                    <RowDefinition Height="10*"/>
+                                                    <RowDefinition Height="89*"/>
+                                                </Grid.RowDefinitions>
+                                                <dxc:ChartControl   Grid.Row="0" AnimationMode="OnLoad">
+                                                    <dxc:ChartControl.Legend>
+                                                        <dxc:Legend/>
+                                                    </dxc:ChartControl.Legend>
+                                                    <dxc:ChartControl.Diagram>
+                                                        <dxc:SimpleDiagram2D>
+                                                            <dxc:SimpleDiagram2D.Series>
+                                                                <dxc:PieSeries2D HoleRadiusPercent="0"  Name="pieSeriesNbreMenage">
+                                                                    <dxc:PieSeries2D.PointAnimation>
+                                                                        <dxc:Pie2DFlyInAnimation />
+                                                                    </dxc:PieSeries2D.PointAnimation>
+                                                                    <dxc:PieSeries2D.Label>
+                                                                        <dxc:SeriesLabel Visible="True" dxc:PieSeries.LabelPosition="TwoColumns" RenderMode="RectangleConnectedToCenter" TextPattern="{}{A}: {V}"/>
+                                                                    </dxc:PieSeries2D.Label>
+                                                                    <dxc:PieSeries2D.PointOptions>
+                                                                        <dxc:PointOptions>
+                                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                                <dxc:NumericOptions Format="Number" Precision="0"/>
+                                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                                        </dxc:PointOptions>
+                                                                    </dxc:PieSeries2D.PointOptions>
+                                                                    <dxc:PieSeries2D.LegendPointOptions>
+                                                                        <dxc:PointOptions Pattern="{}{A}: {V}" />
+                                                                    </dxc:PieSeries2D.LegendPointOptions>
+                                                                </dxc:PieSeries2D>
+                                                            </dxc:SimpleDiagram2D.Series>
+                                                        </dxc:SimpleDiagram2D>
+                                                    </dxc:ChartControl.Diagram>
+
+                                                </dxc:ChartControl>
+                                                <dxc:ChartControl  Grid.Row="2" AnimationMode="OnLoad">
+                                                    <dxc:ChartControl.Legend>
+                                                        <dxc:Legend/>
+                                                    </dxc:ChartControl.Legend>
+                                                    <dxc:XYDiagram2D Width="450">
+                                                        <dxc:BarSideBySideSeries2D BarWidth="1" Width="250" Height="240" LegendTextPattern="{} {A}:{V}" DisplayName="Series 1" Name="barSeriesTailleMenage" ColorEach="True">
+                                                            <dxc:BarSideBySideSeries2D.Model>
+                                                                <dxc:Quasi3DBar2DModel/>
+                                                            </dxc:BarSideBySideSeries2D.Model>
+                                                        </dxc:BarSideBySideSeries2D>
+                                                    </dxc:XYDiagram2D>
+                                                </dxc:ChartControl>
+                                            </Grid>
+                                        </dx:DXTabItem>
+                                    </dx:DXTabControl>
+                                </Grid>
+                            </dx:DXTabItem>
+                            <dx:DXTabItem Header="Indicateurs de performance" Name="tabPagePerformance"  >
+                                <!--GotFocus="tabPagePerformance_GotFocus"-->
+                                <Grid>
+                                    <dxg:GridControl  Name="dataGridIndPerformance">
+                                        <dxg:GridControl.Columns>
+                                            <dxg:GridColumn FieldName="Value" Header="Indicateur de performance" />
+                                            <dxg:GridColumn FieldName="Cle" SortOrder="Ascending" SortIndex="0" Header="Nombre/Jour" Fixed="Left"/>
+                                        </dxg:GridControl.Columns>
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView  Name="table_view" AllowPerPixelScrolling="True" ShowTotalSummary="True" ShowGroupPanel="False" />
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+
+                                </Grid>
+                            </dx:DXTabItem>
+                        </dx:DXTabControl>
+                    </dx:DXTabItem>
+                </dx:DXTabControl>
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Gestion des notes" Name="tabGestionNotes" >
+                <!--GotFocus="tabGestionNotes_GotFocus"-->
+                <dx:DXTabControl Name="tabControlNotes">
+                    <dx:DXTabItem Header="Ajout" Name="tabAjout" >
+                        <!--GotFocus="tabAjout_GotFocus"-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="71*"/>
+                                <RowDefinition Height="254*"/>
+                                <RowDefinition Height="0*"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Header="Difficultés rencontrées" Margin="0,53,0,22.333" Grid.RowSpan="2">
+                                <Grid>
+                                    <Label Content="Code Question" HorizontalAlignment="Left" Margin="3,111,0,0" VerticalAlignment="Top"/>
+                                    <ComboBox HorizontalAlignment="Left" Margin="140,109,0,0" VerticalAlignment="Top" Width="166" Name="cmbCodeQuestion" DisplayMemberPath="CodeQuestion"  IsEnabled="False" />
+                                    <!--SelectionChanged="cmbCodeQuestion_SelectionChanged"-->
+                                    <TextBlock HorizontalAlignment="Left" Margin="141,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="67" Width="165" Name="txtLibelle" Foreground="#FFFF5454" FontStyle="Italic"/>
+                                    <Label Content="Libelle:" HorizontalAlignment="Left" Margin="3,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.353,-1.273" Foreground="#FFFD0B0B" FontWeight="Bold" FontStyle="Italic"/>
+                                    <Label Content="Module" HorizontalAlignment="Left" Margin="3,47,0,0" VerticalAlignment="Top"/>
+                                    <ComboBox HorizontalAlignment="Left" Margin="140,45,0,0" VerticalAlignment="Top" Width="166" Name="cmbObjet"  DisplayMemberPath="Name" IsEnabled="False"/>
+                                    <!--SelectionChanged="cmbObjet_SelectionChanged"-->
+                                    <Label Content="Description du probleme" HorizontalAlignment="Left" Margin="5,198,0,0"  VerticalAlignment="Top"/>
+                                    <TextBox HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="141,200,0,0" TextWrapping="Wrap" Text="" Name="txtNature" AcceptsReturn="True" Width="166" Height="82" IsEnabled="False" />
+                                    <Label Content="Choisir le(s) code(s) questionnaire(s)" HorizontalAlignment="Left" Margin="3,7,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.357,-0.045"/>
+                                    <ComboBox HorizontalAlignment="Left" Margin="237,10,0,0" VerticalAlignment="Top" Width="68" Name="cmbBatiment" DisplayMemberPath="BatimentId"  IsEnabled="False"/>
+                                    <!--SelectionChanged="cmbBatiment_SelectionChanged"-->
+                                    <Label Content="Liste des questionnaires à problème" Margin="312,8,314,0" VerticalAlignment="Top" Height="32"/>
+                                    <ListBox Margin="511,14,0,0" Name="listBCodeBatiment" HorizontalAlignment="Left" VerticalAlignment="Top" DisplayMemberPath="BatimentName" IsEnabled="False" Height="209" Width="150"/>
+                                    <Button Content="Sauvegarder" HorizontalAlignment="Left" Margin="317,200,0,0" VerticalAlignment="Top" Width="116" Name="btn_save" Height="26"  IsEnabled="False" />
+                                    <!--Click="btn_save_Click"-->
+                                    <Label Content="Domaine" HorizontalAlignment="Left"  Margin="3,81,0,0" VerticalAlignment="Top"/>
+                                    <ComboBox HorizontalAlignment="Left"  Margin="140,76,0,0" VerticalAlignment="Top" Width="166" DisplayMemberPath="Value" Name="cmbDomaine" IsEnabled="False"   />
+                                    <!--SelectionChanged="cmbDomaine_SelectionChanged"-->
+                                </Grid>
+                            </GroupBox>
+                            <Label Content="Type de difficultés" HorizontalAlignment="Left" Margin="4,8,0,0" VerticalAlignment="Top" Height="22" Width="96" Grid.Row="0"/>
+                            <ComboBox HorizontalAlignment="Left" Margin="152,8,0,0" VerticalAlignment="Top" Width="166" Name="cmbTypeProbleme" DisplayMemberPath="Value"  Height="22" Grid.Row="0"/>
+                            <!--SelectionChanged="cmbTypeProbleme_SelectionChanged"-->
+                            <TextBlock HorizontalAlignment="Left" Margin="333,15,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="38" Width="372" x:Name="txtIndicateur" Foreground="#FF0F79E4"/>
+                        </Grid>
+                    </dx:DXTabItem>
+                    <dx:DXTabItem Header="Affichage" >
+                        <!--GotFocus="DXTabItem_GotFocus"-->
+                        <Grid>
+                            <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Name="grdDifficulties">
+                                <dxg:GridControl.View>
+                                    <dxg:TableView AllowPerPixelScrolling="True" ShowTotalSummary="True" Name="tableView">
+                                        <dxg:TableView.RowCellMenuCustomizations>
+                                            <dxb:BarButtonItem Name="updateRowItem" Content="Modifier" SerializationName="updateRowItem" Glyph="/ht.ihsi.rgph.epc.supervision;component/images/update.png" GlyphSize="Small"  />
+                                            <!--ItemClick="updateRowItem_ItemClick"-->
+                                            <dxb:BarButtonItem Name="deleteDataItem" Content="Supprimer" Glyph="/ht.ihsi.rgph.epc.supervision;component/images/delete-xxl.png" SerializationName="deleteDataItem"  />
+                                            <!--ItemClick="deleteDataItem_ItemClick"-->
+                                        </dxg:TableView.RowCellMenuCustomizations>
+                                    </dxg:TableView>
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+
+                        </Grid>
+                    </dx:DXTabItem>
+                </dx:DXTabControl>
+            </dx:DXTabItem>
+            <!--<dx:DXTabItem Header="Verification 1" Height="22" VerticalAlignment="Bottom">
+                <dx:DXTabControl Margin="-2,0,1,-2">
+                    <dx:DXTabItem Header="NON-REPONSE TOTALE">
+                        <GroupBox Header="Verification Totale">
+                            <dxg:TreeListControl AutoGenerateColumns="AddNew"   Name="dtg_non_reponse_totale" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
+                                --><!--AutoGeneratingColumn="dtg_non_reponse_totale_AutoGeneratingColumn"--><!--
+                                <dxg:TreeListControl.View >
+                                    <dxg:TreeListView  ShowNodeImages="True" ImageFieldName="Image"  NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListView1" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"   AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD">
+                                        --><!--<dxg:TreeListView.ContextMenu>
+                                            <ContextMenu >
+                                                <MenuItem Header="mymenu"></MenuItem>
+                                            </ContextMenu>
+                                        </dxg:TreeListView.ContextMenu>--><!--
+                                        <dxg:TreeListView.RowCellMenuCustomizations>
+                                            <dxb:BarButtonItem Name="deleteRowItem" Content="Supprimer" />
+                                        </dxg:TreeListView.RowCellMenuCustomizations>
+                                    </dxg:TreeListView>
+                                </dxg:TreeListControl.View>
+
+                                <dxg:TreeListControl.Columns>
+                                </dxg:TreeListControl.Columns>
+                            </dxg:TreeListControl>
+                        </GroupBox>
+                    </dx:DXTabItem>
+                    <dx:DXTabItem Header="NON-REPONSE PARTIELLE">
+                        <GroupBox Header="Verification Partielle">
+                            <dxg:TreeListControl AutoGenerateColumns="AddNew"   Name="dtg_non_reponse_partielle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
+                                --><!--AutoGeneratingColumn="dtg_non_reponse_partielle_AutoGeneratingColumn"--><!--
+                                <dxg:TreeListControl.View >
+                                    <dxg:TreeListView   ShowNodeImages="True" ImageFieldName="Image"  NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListView_partielle" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"  AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD" />
+                                </dxg:TreeListControl.View>
+                                <dxg:TreeListControl.Columns>
+
+                                </dxg:TreeListControl.Columns>
+                            </dxg:TreeListControl>
+                        </GroupBox>
+                    </dx:DXTabItem>
+                </dx:DXTabControl>
+
+            </dx:DXTabItem>-->
+            <!--<dx:DXTabItem Header="Verification 2">
+                <dx:DXTabControl>
+                    <dx:DXTabItem Header="Compteur de Flags par Individu" Name="tabCompteurFlag" >
+                        <Grid>
+                            <dx:LoadingDecorator Name="decoratorTab" IsSplashScreenShown="false" SplashScreenLocation="CenterScreen">
+                            </dx:LoadingDecorator>
+                            <GroupBox Header="Tableau de Verification">
+                                <Grid MouseRightButtonDown="Grid_MouseRightButtonDown">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="41*"/>
+                                        <RowDefinition Height="34*"/>
+                                    </Grid.RowDefinitions>
+                                    <dxc:ChartControl Name="chartControlCompteur" MouseDoubleClick="chartControlCompteur_MouseDoubleClick" Grid.Row="0">
+                                        <dxc:ChartControl.Palette>
+                                            <dxc:CustomPalette>
+                                                <dxc:CustomPalette.Colors>
+                                                    <Color>#FF4CA3FF</Color>
+                                                    <Color>#FFEB3515</Color>
+                                                    <Color>#FF35AD02</Color>
+                                                    <Color>#FF0CD4EB</Color>
+                                                    <Color>#FFF0FC05</Color>
+                                                    <Color>#FF0560FC</Color>
+                                                    <Color>#FFE005FC</Color>
+                                                    <Color>#FF05FC09</Color>
+                                                    <Color>#FFFCC305</Color>
+                                                    <Color>#FFFF03A7</Color>
+                                                    <Color>#FF23A690</Color>
+                                                    <Color>#FFB3E5BA</Color>
+                                                    <Color>#FF1E211E</Color>
+                                                </dxc:CustomPalette.Colors>
+                                            </dxc:CustomPalette>
+                                        </dxc:ChartControl.Palette>
+                                        <dxc:ChartControl.Diagram>
+                                            <dxc:XYDiagram2D>
+                                                <dxc:XYDiagram2D.Series>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag0" DisplayName="0">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag1" DisplayName="1">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag2" DisplayName="2">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag3" DisplayName="3">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag4" DisplayName="4">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag5" DisplayName="5">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag6" DisplayName="6">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag7" DisplayName="7">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag8" DisplayName="8">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag9" DisplayName="9">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag10" DisplayName="10">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag11" DisplayName="11">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+                                                    <dxc:BarFullStackedSeries2D Name="chartFlag12" DisplayName="12">
+                                                        <dxc:BarFullStackedSeries2D.Model>
+                                                            <dxc:Quasi3DBar2DModel />
+                                                        </dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:BarFullStackedSeries2D.Label>
+                                                            <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                        </dxc:BarFullStackedSeries2D.Label>
+
+                                                        <dxc:BarFullStackedSeries2D.PointOptions>
+                                                            <dxc:PointOptions >
+                                                                <dxc:PointOptions.ValueNumericOptions>
+                                                                    <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                                </dxc:PointOptions.ValueNumericOptions>
+
+                                                            </dxc:PointOptions>
+
+                                                        </dxc:BarFullStackedSeries2D.PointOptions>
+                                                    </dxc:BarFullStackedSeries2D>
+
+                                                </dxc:XYDiagram2D.Series>
+                                            </dxc:XYDiagram2D>
+                                        </dxc:ChartControl.Diagram>
+                                        <dxc:ChartControl.Legend>
+                                            <dxc:Legend />
+                                        </dxc:ChartControl.Legend>
+                                        <dxc:ChartControl.Titles>
+                                            <dxc:Title Dock="Top" HorizontalAlignment="Center" FontSize="16">Distribution (%) des individus (par groupe de population) 
+selon le nombre de problèmes comptabilisés (flags),
+en fonction du nombre total de problèmes spécifié par groupe
+                                            </dxc:Title>
+                                            <dxc:Title Dock="Bottom" HorizontalAlignment="Right" FontSize="12" Foreground="Silver" Margin="0,10,0,0">IHSI</dxc:Title>
+                                        </dxc:ChartControl.Titles>
+                                    </dxc:ChartControl>
+                                    <GroupBox Header="Nombres d'individus" Grid.Row="1">
+                                        <Grid>
+                                            <dxg:TreeListControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" SelectionMode="Row" Name="gridFlag" AutoGeneratingColumn="gridFlag_AutoGeneratingColumn">
+                                                <dxg:TreeListControl.View>
+                                                    <dxg:TreeListView NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListView2" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"   AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD" RowDoubleClick="treeListView2_RowDoubleClick" />
+                                                </dxg:TreeListControl.View>
+                                            </dxg:TreeListControl>
+
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </dx:DXTabItem>
+                    <dx:DXTabItem Header="Vérification de la codification" Name="tabCodification" GotFocus="tabCodification_GotFocus">
+                        <GroupBox Header="Codification">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="203*"/>
+                                    <RowDefinition Height="97*"/>
+                                </Grid.RowDefinitions>
+                                <dxc:ChartControl Name="chartControl1" Grid.Row="0">
+                                    <dxc:ChartControl.Diagram>
+                                        <dxc:XYDiagram2D>
+                                            <dxc:XYDiagram2D.Series>
+                                                <dxc:BarFullStackedSeries2D Name="entierementPreCodifie" DisplayName="Entièrement Pré-Codifié">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                    </dxc:BarFullStackedSeries2D.Label>
+
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions >
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+
+                                                        </dxc:PointOptions>
+
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+
+                                                --><!--
+                                                <dxc:BarFullStackedSeries2D Name="pasDuToutPreCodifieAutre" DisplayName="Pas du tout Pré-Codifié (Autre)">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>--><!--
+                                                <dxc:BarFullStackedSeries2D Name="partiellementPreCodifie" DisplayName="Partiellement Pré-Codifié">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="pasDuToutPreCodifie" DisplayName="Pas du tout Pré-Codifié">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="partiellementPreCodifieAutre" DisplayName="Partiellement Pré-Codifié (Autre)">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}" Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0"  />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                            </dxc:XYDiagram2D.Series>
+                                        </dxc:XYDiagram2D>
+                                    </dxc:ChartControl.Diagram>
+                                    <dxc:ChartControl.Legend>
+                                        <dxc:Legend />
+                                    </dxc:ChartControl.Legend>
+                                    <dxc:ChartControl.Titles>
+                                        <dxc:Title Dock="Top" HorizontalAlignment="Center" FontSize="16">Distribution des individus avec variables à codifier selon le degré de pré-codification</dxc:Title>
+                                        <dxc:Title Dock="Bottom" HorizontalAlignment="Right" FontSize="12" Foreground="Silver" Margin="0,10,0,0">IHSI</dxc:Title>
+                                    </dxc:ChartControl.Titles>
+
+                                </dxc:ChartControl>
+                                <GroupBox Header="Nombres d'individus" Grid.Row="1">
+                                    <Grid>
+                                        <dxg:TreeListControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" SelectionMode="Row" Name="gridFlagCodification" AutoGeneratingColumn="gridFlag_AutoGeneratingColumn">
+                                            <dxg:TreeListControl.View>
+                                                <dxg:TreeListView NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListViewCodification" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"   AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD" RowDoubleClick="treeListView2_RowDoubleClick" />
+                                            </dxg:TreeListControl.View>
+                                        </dxg:TreeListControl>
+
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </dx:DXTabItem>
+                    <dx:DXTabItem Header="Compteurs de flags par taille de menage" Name="tabFlagMenage" GotFocus="tabFlagMenage_GotFocus">
+                        <GroupBox Header="Tableau Tailles de menages">
+                            <Grid>
+                                <dxc:ChartControl Name="chartControlTailleMenage">
+                                    <dxc:ChartControl.Diagram>
+                                        <dxc:XYDiagram2D>
+                                            <dxc:XYDiagram2D.Series>
+                                                <dxc:BarFullStackedSeries2D Name="aucunFlag" DisplayName="Aucun Flag">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+
+                                                    </dxc:BarFullStackedSeries2D.Label>
+
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions >
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+
+                                                        </dxc:PointOptions>
+
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_1_4" DisplayName="1-4 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}" Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0"  />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_5_14" DisplayName="5-14 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_15_26" DisplayName="15-26 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_27_47" DisplayName="27-47 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_48_70" DisplayName="48-70 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                                <dxc:BarFullStackedSeries2D Name="flag_71_130" DisplayName="71-130 Flags">
+                                                    <dxc:BarFullStackedSeries2D.Model>
+                                                        <dxc:Quasi3DBar2DModel />
+                                                    </dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BarFullStackedSeries2D.Label>
+                                                        <dxc:SeriesLabel Indent="20" ConnectorThickness="1" ResolveOverlappingMode="Default" TextPattern="{}{VP:P0}"
+                                                     Visible="True" />
+                                                    </dxc:BarFullStackedSeries2D.Label>
+                                                    <dxc:BarFullStackedSeries2D.PointOptions>
+                                                        <dxc:PointOptions>
+                                                            <dxc:PointOptions.ValueNumericOptions>
+                                                                <dxc:NumericOptions Format="Percent" Precision="0" />
+                                                            </dxc:PointOptions.ValueNumericOptions>
+                                                        </dxc:PointOptions>
+                                                    </dxc:BarFullStackedSeries2D.PointOptions>
+                                                </dxc:BarFullStackedSeries2D>
+                                            </dxc:XYDiagram2D.Series>
+                                        </dxc:XYDiagram2D>
+                                    </dxc:ChartControl.Diagram>
+                                    <dxc:ChartControl.Legend>
+                                        <dxc:Legend />
+                                    </dxc:ChartControl.Legend>
+                                    <dxc:ChartControl.Titles>
+                                        <dxc:Title Dock="Top" HorizontalAlignment="Center" FontSize="16">Distribution des ménages selon le nombre de problèmes comptabilisés pat taille de ménage</dxc:Title>
+                                        <dxc:Title Dock="Bottom" HorizontalAlignment="Right" FontSize="12" Foreground="Silver" Margin="0,10,0,0">IHSI</dxc:Title>
+                                    </dxc:ChartControl.Titles>
+
+                                </dxc:ChartControl>
+                            </Grid>
+                        </GroupBox>
+                    </dx:DXTabItem>
+                </dx:DXTabControl>
+            </dx:DXTabItem>-->
+        </dx:DXTabControl>
+    </Grid>
+</UserControl>

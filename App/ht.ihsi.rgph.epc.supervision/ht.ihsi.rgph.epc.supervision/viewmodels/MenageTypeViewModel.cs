@@ -45,9 +45,9 @@ namespace ht.ihsi.rgph.epc.supervision.viewmodels
                     base.Children.Add(new MenageDetailsViewModel(m, this));
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
-
+                
             }
            
         }

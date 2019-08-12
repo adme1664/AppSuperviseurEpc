@@ -46,6 +46,7 @@
     <Reference Include="Com.Controls.MessageBox">
       <HintPath>..\..\..\..\DLLS\Com.Controls.MessageBox.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Charts.v15.1.Core, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
@@ -58,15 +59,20 @@
     <Reference Include="DevExpress.Printing.v15.1.Core, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Charts.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Gauges.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Xpf.Grid.v15.1.Core, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Layout.v15.1.Core, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Ribbon.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
@@ -88,6 +94,14 @@
     </Reference>
     <Reference Include="Ht.Ihsi.Rgph.Utility">
       <HintPath>..\..\..\..\AppSuperviseur.V.1.5.1\Ht.Ihsil.Rgph.App.Superviseur\Ht.Ihsi.Rgph.DataAccess\bin\Release\Ht.Ihsi.Rgph.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SharePoint.Client.14.0.4762.1000\lib\Microsoft.SharePoint.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SharePoint.Client.14.0.4762.1000\lib\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -122,7 +136,11 @@
     <Reference Include="System.Net.Http.WebRequest">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit">
+      <HintPath>..\..\..\..\rgph-supervision\Ht.Ihsil.Rgph.App.Superviseur\packages\WPFToolkit.DataVisualization.3.5.50211.1\lib\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -132,6 +150,34 @@
     </Reference>
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Toolkit.Charting, Version=1.0.5755.26422, Culture=neutral, PublicKeyToken=c475b86b0b5dd5cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Charting.1.0.5755.26422\lib\net40\Toolkit.Charting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.CodeBase, Version=1.0.5755.26406, Culture=neutral, PublicKeyToken=85a1d6861c984571, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.CodeBase.1.0.5755.26406\lib\net35\Toolkit.CodeBase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.CommonResources, Version=1.0.5752.28158, Culture=neutral, PublicKeyToken=2899914042019c40, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.CommonResources.1.0.5752.28158\lib\net35\Toolkit.CommonResources.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.Data, Version=1.0.5755.26407, Culture=neutral, PublicKeyToken=629543f4dbd6bd87, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Data.1.0.5755.26407\lib\net35\Toolkit.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.Drawing, Version=1.0.5755.26408, Culture=neutral, PublicKeyToken=5ff3c7cbdef8f713, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Drawing.1.0.5755.26408\lib\net35\Toolkit.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.Runtime, Version=1.0.5755.26410, Culture=neutral, PublicKeyToken=f6792c8416fb80c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Runtime.1.0.5755.26410\lib\net35\Toolkit.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Toolkit.Scripting, Version=1.0.5755.26411, Culture=neutral, PublicKeyToken=6616acb562ce6d44, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Scripting.1.0.5755.26411\lib\net35\Toolkit.Scripting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -172,6 +218,7 @@
     </ApplicationDefinition>
     <Compile Include="beans\SdeBean.cs" />
     <Compile Include="beans\Utilisateur.cs" />
+    <Compile Include="exceptions\MessageException.cs" />
     <Compile Include="jsons\AgentJson.cs" />
     <Compile Include="mapper\DataDetailsMapper.cs" />
     <Compile Include="mapper\ModelMapper.cs" />
@@ -179,6 +226,7 @@
     <Compile Include="models\AncienMembreModel.cs" />
     <Compile Include="models\BatimentModel.cs" />
     <Compile Include="models\CategorieQuestionModel.cs" />
+    <Compile Include="models\CouvertureModel.cs" />
     <Compile Include="models\DataDetails.cs" />
     <Compile Include="models\IndividuModel.cs" />
     <Compile Include="models\LogementModel.cs" />
@@ -205,7 +253,9 @@
     <Compile Include="utils\Constant.cs" />
     <Compile Include="utils\DeviceInformation.cs" />
     <Compile Include="utils\DeviceManager.cs" />
+    <Compile Include="utils\IsqliteDataWriter.cs" />
     <Compile Include="utils\ISqliteReader.cs" />
+    <Compile Include="utils\SqliteDataWriter.cs" />
     <Compile Include="utils\SqliteReader.cs" />
     <Compile Include="utils\StringValueAttribute.cs" />
     <Compile Include="utils\Users.cs" />
@@ -228,11 +278,20 @@
     <Compile Include="views\frm_pop_up_transfert.xaml.cs">
       <DependentUpon>frm_pop_up_transfert.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\frm_pop_verified_validate.xaml.cs">
+      <DependentUpon>frm_pop_verified_validate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\frm_reponses.xaml.cs">
       <DependentUpon>frm_reponses.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\frm_verification.xaml.cs">
+      <DependentUpon>frm_verification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\frm_view_agents.xaml.cs">
       <DependentUpon>frm_view_agents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\frm_view_verification.xaml.cs">
+      <DependentUpon>frm_view_verification.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\frm_visualisation.xaml.cs">
       <DependentUpon>frm_visualisation.xaml</DependentUpon>
@@ -264,11 +323,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\frm_pop_verified_validate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\frm_reponses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\frm_verification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\frm_view_agents.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\frm_view_verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

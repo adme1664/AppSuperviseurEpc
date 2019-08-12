@@ -20,6 +20,10 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         public static string CMD_PULL_DB = "/c adb pull sdcard/Data/rgph_epc_db/";
         public static string CMD_PUSH_DB = "/c adb push";
         public static string CMD_ADB_VERSION = "/c adb version";
+        public static int AGE_PA_KONNEN = 999;
+        public static short STATUT_MODULE_KI_FINI_1 = 1;
+        public static short STATUT_MODULE_KI_MAL_RANPLI_2 = 2;
+        public static short STATUT_MODULE_KI_PA_FINI_3 = 3;
         #endregion
 
         #region MODELS
@@ -31,6 +35,12 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         #endregion
 
         #region ENUMERATIONS
+
+        public enum StatutVerifie : short
+        {
+            Verifie = 1,
+            PasVerifie = 0
+        }
         public enum TypeQuestionMobile : int
         {
             Choix = 17,
@@ -203,6 +213,12 @@ namespace ht.ihsi.rgph.epc.supervision.utils
            Individu = 5
        }
         #endregion
+
+       public enum Sexe : int
+       {
+           Gason = 1,
+           Fi = 2
+       }
 
     }
 }

@@ -5,7 +5,7 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
-    Title="IHSI-RGPH-EPC SUPERVISION V1.0"  Height="574" Width="728" IsAeroMode="False" WindowStyle="SingleBorderWindow" WindowState="Maximized" >
+    Title="EPC"  Height="574" Width="728" Icon="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/favicon.ico" IsAeroMode="False" WindowStyle="ThreeDBorderWindow" WindowState="Maximized" >
 
     
     <Grid>

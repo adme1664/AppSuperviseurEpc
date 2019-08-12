@@ -70,5 +70,65 @@ namespace ht.ihsi.rgph.epc.supervision.utils
        #region DOMAINE ETUDE
        tbl_domaine_etude getDomaine(string domaineId);
        #endregion
+
+       #region DEMOGRAPHIQUE
+       double tailleMoyenneMenage();
+       float getIndiceMasculinite();
+       int getTotalMenageUnipersonnel();
+       List<MenageModel> searchMenageUnipersonnel();
+       List<MenageModel> searchMenage6PlusPersonne();
+       int getTotalMenageDe6IndsEtPlus();
+       int getTotalFemmeChefMenage();
+       int getTotalFemme();
+       int getTotalHommeChefMenage();
+       int getTotalHomme();
+       int getTotalPersonnes15_64Ans();
+       int getTotalPersonnes18EtPlusAns();
+       int getTotalDecesOuLaisse();
+       int getTotalEnfantDeMoinsDe1Ans();
+       #endregion
+
+       #region PERFORMANCE
+       double getTotalBatRecenseParJourV();
+       int getTotalBatRecenseParJourNV();
+       double getTotalLogeCRecenseParJourV();
+       double getTotalLogeRecenseParJourV();
+       int getTotalLogeCRecenseParJourNV();
+       int getTotalLogeIRecenseParJourV();
+       int getTotalLogeIRecenseParJourNV();
+       double getTotalMenageRecenseParJourV();
+       int getTotalMenageRecenseParJourNV();
+       double getTotalIndRecenseParJourV();
+       int getTotalIndRecenseParJourNV();
+       #endregion
+
+       #region GESTION
+       int getTotalBatiment();
+       int getTotalLogement();
+       int getTotalMenages();
+       int getTotalAncienMembre();
+       int getTotalIndividus();
+       int getTotalBatRecenseV();
+       int getTotalBatRecenseNV();
+       int getTotalLogeIRecenseV();
+       int getTotalLogeIRecenseNV();
+       int getTotalMenageRecenseV();
+       int getTotalMenageRecenseNV();
+       int getTotalIndRecenseV();
+       int getTotalIndRecenseNV();
+       int getTotalAncienMembreV();
+       int getTotalAncienMembreNV();
+
+       int getTotalBatRecenseTermine();
+       int getTotalBatRecenseNTermine();
+       int getTotalLogeIRecenseTermine();
+       int getTotalLogeIRecenseNTermine();
+       int getTotalMenageRecenseTermine();
+       int getTotalMenageRecenseNTermine();
+       int getTotalIndRecenseTermine();
+       int getTotalIndRecenseNTermine();
+       int getTotalAncienMembreTermine();
+       int getTotalAncienMembreNTermine();
+       #endregion
    }
 }
