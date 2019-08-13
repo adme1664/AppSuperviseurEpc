@@ -169,8 +169,8 @@
                                     </dx:DXTabControl>
                                 </Grid>
                             </dx:DXTabItem>
-                            <dx:DXTabItem Header="Indicateurs de performance" Name="tabPagePerformance"  >
-                                <!--GotFocus="tabPagePerformance_GotFocus"-->
+                            <dx:DXTabItem Header="Indicateurs de performance" Name="tabPagePerformance" GotFocus="tabPagePerformance_GotFocus" >
+                                <!---->
                                 <Grid>
                                     <dxg:GridControl  Name="dataGridIndPerformance">
                                         <dxg:GridControl.Columns>

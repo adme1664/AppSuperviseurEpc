@@ -196,12 +196,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
             int nbreLogementIndTotalTermine = 0;
             int nbreLogementIndTotalNonTermine = 0;
             int nbreLogementIndTotalVerifie = 0;
-            int nbreLogementIndTotalNonVerifie = 0;
-           int nbreLogementColTotal = 0;
-            int nbreLogementColTotalTermine = 0;
-            int nbreLogementColTotalNonTermine = 0;
-            int nbreLogementColTotalVerifie = 0;
-            int nbreLogementColTotalNonVerifie = 0;
+            int nbreLogementIndTotalNonVerifie = 0;       
             int nbreMenageTotal = 0;
             int nbreMenageTotalTermine = 0;
             int nbreMenageTotalNonTermine = 0;
@@ -430,6 +425,40 @@ namespace ht.ihsi.rgph.epc.supervision.views
             catch (Exception)
             {
                 //log.Info("ERREUR:<>===================<>" + ex.Message);
+            }
+        }
+
+        public void createIndicateursPerformances(bool isForSde)
+        {
+            try
+            {
+                if (isForSde == true)
+                {
+                    reader = new SqliteReader(Utilities.getConnectionString(MAIN_DATABASE_PATH, sdeSelected.SdeId));
+                    double nbreParJourBatiment = reader.getTotalBatRecenseParJourV();
+                    double nbreParJourLogement = reader.getTotalLogeRecenseParJourV();
+                    double nbreParJourMenage = reader.getTotalMenageRecenseParJourV();
+                    double nbreParJourPersonnes = reader.getTotalIndRecenseParJourV();
+                    List<KeyValue> list = new List<KeyValue>();
+                    list.Add(new KeyValue(nbreParJourBatiment, "Nombre de questionnaires par jour de recensement"));
+                    list.Add(new KeyValue(nbreParJourLogement, "Nombre de logements par jour de recensement"));
+                    list.Add(new KeyValue(nbreParJourMenage, "Nombre de menages par jour de recensement"));
+                    list.Add(new KeyValue(nbreParJourPersonnes, "Nombre d'individus par jour de recensement"));
+                    dataGridIndPerformance.ItemsSource = list;
+                    table_view.Dispatcher.BeginInvoke((Action)(() => table_view.BestFitColumns()));
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void tabPagePerformance_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sdeSelected != null)
+            {
+                createIndicateursPerformances(true);
             }
         }
 

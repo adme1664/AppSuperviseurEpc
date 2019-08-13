@@ -682,57 +682,150 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         }
         public double getTotalBatRecenseParJourV()
         {
-            throw new NotImplementedException();
-        }
+            string methodName = "getTotalBatRecenseParJourV";
+            double nbreParJour = 0;
+            try
+            {
+                List<BatimentModel> listOfBatiments = ModelMapper.MapTo(repository.BatimentRepository.Find(b => b.statut == (int)Constant.StatutModule.Fini).ToList());
+                BatimentModel firstBatiment = listOfBatiments.First();
+                BatimentModel lastBatiment = listOfBatiments.Last();
 
-        public int getTotalBatRecenseParJourNV()
-        {
-            throw new NotImplementedException();
-        }
+                DateTime dateSaisieFirst = new DateTime();
+                DateTime dateSaisieLast = new DateTime();
 
-        public double getTotalLogeCRecenseParJourV()
-        {
-            throw new NotImplementedException();
+                dateSaisieFirst = Convert.ToDateTime(firstBatiment.dateDebutCollecte);
+                dateSaisieLast = Convert.ToDateTime(lastBatiment.dateFinCollecte);
+                double totalOfDays = (dateSaisieLast - dateSaisieFirst).TotalDays;
+                totalOfDays = Math.Truncate(totalOfDays);
+                if (totalOfDays == 0)
+                    nbreParJour = listOfBatiments.Count();
+                else
+                {
+                    if (totalOfDays >= 2)
+                        nbreParJour = listOfBatiments.Count() / (totalOfDays - 1);
+                    else
+                    {
+                        nbreParJour = listOfBatiments.Count();
+                    }
+                }
+                log.Info("Nombre de batiments/jar:" + nbreParJour);
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + " : " + ex.Message);
+            }
+            return nbreParJour;
         }
 
         public double getTotalLogeRecenseParJourV()
         {
-            throw new NotImplementedException();
-        }
+            string methodName = "getTotalLogeRecenseParJourV";
+            double nbreParJour = 0;
+            try
+            {
+                List<LogementModel> listOfLogements = ModelMapper.MapTo(repository.LogementRepository.Find(b => b.statut == (int)Constant.StatutModule.Fini).ToList());
+                LogementModel firstBatiment = listOfLogements.First();
+                LogementModel lastBatiment = listOfLogements.Last();
 
-        public int getTotalLogeCRecenseParJourNV()
-        {
-            throw new NotImplementedException();
-        }
+                DateTime dateSaisieFirst = new DateTime();
+                DateTime dateSaisieLast = new DateTime();
 
-        public int getTotalLogeIRecenseParJourV()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int getTotalLogeIRecenseParJourNV()
-        {
-            throw new NotImplementedException();
+                dateSaisieFirst = Convert.ToDateTime(firstBatiment.dateDebutCollecte);
+                dateSaisieLast = Convert.ToDateTime(lastBatiment.dateFinCollecte);
+                double totalOfDays = (dateSaisieLast - dateSaisieFirst).TotalDays;
+                totalOfDays = Math.Truncate(totalOfDays);
+                if (totalOfDays == 0)
+                    nbreParJour = listOfLogements.Count();
+                else
+                {
+                    if (totalOfDays >= 2)
+                        nbreParJour = listOfLogements.Count() / (totalOfDays - 1);
+                    else
+                    {
+                        nbreParJour = listOfLogements.Count();
+                    }
+                }
+                log.Info("Nombre de logements/jar:" + nbreParJour);
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + " : " + ex.Message);
+            }
+            return nbreParJour;
         }
 
         public double getTotalMenageRecenseParJourV()
         {
-            throw new NotImplementedException();
-        }
+            string methodName = "getTotalMenageRecenseParJourV";
+            double nbreParJour = 0;
+            try
+            {
+                List<MenageModel> listOfMenages = ModelMapper.MapTo(repository.MenageRepository.Find(b => b.statut == (int)Constant.StatutModule.Fini).ToList());
+                MenageModel firstMenage = listOfMenages.First();
+                MenageModel lastMenage = listOfMenages.Last();
 
-        public int getTotalMenageRecenseParJourNV()
-        {
-            throw new NotImplementedException();
+                DateTime dateSaisieFirst = new DateTime();
+                DateTime dateSaisieLast = new DateTime();
+
+                dateSaisieFirst = Convert.ToDateTime(firstMenage.dateDebutCollecte);
+                dateSaisieLast = Convert.ToDateTime(lastMenage.dateFinCollecte);
+                double totalOfDays = (dateSaisieLast - dateSaisieFirst).TotalDays;
+                totalOfDays = Math.Truncate(totalOfDays);
+                if (totalOfDays == 0)
+                    nbreParJour = listOfMenages.Count();
+                else
+                {
+                    if (totalOfDays >= 2)
+                        nbreParJour = listOfMenages.Count() / (totalOfDays - 1);
+                    else
+                    {
+                        nbreParJour = listOfMenages.Count();
+                    }
+                }
+                log.Info("Nombre de menages/jar:" + nbreParJour);
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + " : " + ex.Message);
+            }
+            return nbreParJour;
         }
 
         public double getTotalIndRecenseParJourV()
         {
-            throw new NotImplementedException();
-        }
+            string methodName = "getTotalIndRecenseParJourV";
+            double nbreParJour = 0;
+            try
+            {
+                List<IndividuModel> listOfIndividus = ModelMapper.MapTo(repository.IndividuRepository.Find(b => b.statut == (int)Constant.StatutModule.Fini).ToList());
+                IndividuModel firstIndividu = listOfIndividus.First();
+                IndividuModel lastIndividu = listOfIndividus.Last();
 
-        public int getTotalIndRecenseParJourNV()
-        {
-            throw new NotImplementedException();
+                DateTime dateSaisieFirst = new DateTime();
+                DateTime dateSaisieLast = new DateTime();
+
+                dateSaisieFirst = Convert.ToDateTime(firstIndividu.dateDebutCollecte);
+                dateSaisieLast = Convert.ToDateTime(lastIndividu.dateFinCollecte);
+                double totalOfDays = (dateSaisieLast - dateSaisieFirst).TotalDays;
+                totalOfDays = Math.Truncate(totalOfDays);
+                if (totalOfDays == 0)
+                    nbreParJour = listOfIndividus.Count();
+                else
+                {
+                    if (totalOfDays >= 2)
+                        nbreParJour = listOfIndividus.Count() / (totalOfDays - 1);
+                    else
+                    {
+                        nbreParJour = listOfIndividus.Count();
+                    }
+                }
+                log.Info("Nombre de Individus/jar:" + nbreParJour);
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + " : " + ex.Message);
+            }
+            return nbreParJour;
         }
 
         public int getTotalBatRecenseV()

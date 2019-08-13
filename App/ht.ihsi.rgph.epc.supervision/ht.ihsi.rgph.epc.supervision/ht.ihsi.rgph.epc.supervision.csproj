@@ -229,6 +229,7 @@
     <Compile Include="models\CouvertureModel.cs" />
     <Compile Include="models\DataDetails.cs" />
     <Compile Include="models\IndividuModel.cs" />
+    <Compile Include="models\KeyValue.cs" />
     <Compile Include="models\LogementModel.cs" />
     <Compile Include="models\LogementTypeModel.cs" />
     <Compile Include="models\MaterielModel.cs" />

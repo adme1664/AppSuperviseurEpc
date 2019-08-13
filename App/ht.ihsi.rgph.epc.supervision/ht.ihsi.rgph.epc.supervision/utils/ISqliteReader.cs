@@ -89,17 +89,10 @@ namespace ht.ihsi.rgph.epc.supervision.utils
        #endregion
 
        #region PERFORMANCE
-       double getTotalBatRecenseParJourV();
-       int getTotalBatRecenseParJourNV();
-       double getTotalLogeCRecenseParJourV();
-       double getTotalLogeRecenseParJourV();
-       int getTotalLogeCRecenseParJourNV();
-       int getTotalLogeIRecenseParJourV();
-       int getTotalLogeIRecenseParJourNV();
+       double getTotalBatRecenseParJourV();     
+       double getTotalLogeRecenseParJourV();  
        double getTotalMenageRecenseParJourV();
-       int getTotalMenageRecenseParJourNV();
        double getTotalIndRecenseParJourV();
-       int getTotalIndRecenseParJourNV();
        #endregion
 
        #region GESTION
