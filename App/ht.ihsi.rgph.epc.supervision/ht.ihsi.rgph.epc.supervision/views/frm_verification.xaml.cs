@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Charts;
+using DevExpress.Xpf.Grid;
 using ht.ihsi.rgph.epc.supervision.models;
 using ht.ihsi.rgph.epc.supervision.services;
 using ht.ihsi.rgph.epc.supervision.utils;
@@ -34,6 +35,7 @@ namespace ht.ihsi.rgph.epc.supervision.views
         private SdeModel sdeSelected = null;
         frm_view_verification main;
         Logger log;
+        bool tabFlagCounterFocus = false;
         ThreadStart ths = null;
         Thread t = null;
         bool isTabCouvertureLoad = false;
@@ -44,6 +46,85 @@ namespace ht.ihsi.rgph.epc.supervision.views
             main = mainFrame;
             log = new Logger();
             sdeSelected = sde;
+            #region Ajout des donnees dans les tableaux
+            reader = new SqliteReader(Utilities.getConnectionString(MAIN_DATABASE_PATH, sde.SdeId));
+            List<TableVerificationModel> verificationsNonReponseTotal = Utilities.getVerificatoinNonReponseTotal(MAIN_DATABASE_PATH, sde.SdeId);
+            dtg_non_reponse_totale.ItemsSource = verificationsNonReponseTotal;
+
+            List<TableVerificationModel> verificationsNonReponsePartielle = Utilities.getVerificationNonReponsePartielle(MAIN_DATABASE_PATH, sde.SdeId);
+            dtg_non_reponse_partielle.ItemsSource = verificationsNonReponsePartielle;
+
+            List<VerificationFlag> verficationFlags = Utilities.getVerificationNonReponseParVariable(MAIN_DATABASE_PATH, sde.SdeId);
+            #endregion
+
+            #region Ajout des images dans les nodes
+            //Expand the node in level 1
+            foreach (TreeListNode node in treeListView1.Nodes)
+            {
+                node.IsExpanded = true;
+                node.Image = new BitmapImage(new Uri(@"/images/report3.png", UriKind.Relative));
+                foreach (TreeListNode childNode in node.Nodes)
+                {
+                    TableVerificationModel model = childNode.Content as TableVerificationModel;
+                    if (model.Niveau == "2")
+                    {
+                        childNode.Image = new BitmapImage(new Uri(@"/images/malrempli.png", UriKind.Relative));
+                    }
+                    //Node Batiman adding image Icon
+                    foreach (TreeListNode batimanNode in childNode.Nodes)
+                    {
+                        batimanNode.Image = new BitmapImage(new Uri(@"/images/home.png", UriKind.Relative));
+                    }
+                }
+            }
+            //
+            foreach (TreeListNode node in treeListView_partielle.Nodes)
+            {
+                node.IsExpanded = true;
+                node.Image = new BitmapImage(new Uri(@"/images/report3.png", UriKind.Relative));
+                foreach (TreeListNode childNode in node.Nodes)
+                {
+                    TableVerificationModel model = childNode.Content as TableVerificationModel;
+                    if (model.Niveau == "2")
+                    {
+                        childNode.IsExpanded = true;
+                        childNode.Image = new BitmapImage(new Uri(@"/images/malrempli.png", UriKind.Relative));
+                    }
+                    //Node logement
+                    foreach (TreeListNode logementChild in childNode.Nodes)
+                    {
+                        TableVerificationModel niveau3 = logementChild.Content as TableVerificationModel;
+                        if (niveau3.Niveau == "3")
+                        {
+                            logementChild.Image = new BitmapImage(new Uri(@"/images/logement.png", UriKind.Relative));
+                        }
+                        //a l'interieur du node Logement
+                        foreach (TreeListNode menageChild in logementChild.Nodes)
+                        {
+                            TableVerificationModel niveau4 = menageChild.Content as TableVerificationModel;
+                            if (niveau4.Niveau == "4")
+                            {
+                                menageChild.Image = new BitmapImage(new Uri(@"/images/home.png", UriKind.Relative));
+                            }
+                        }
+                    }
+                    //Node Menage
+                    foreach (TreeListNode menageChild in childNode.Nodes)
+                    {
+                        TableVerificationModel niveau3 = menageChild.Content as TableVerificationModel;
+                        if (niveau3.Niveau == "5")
+                        {
+                            menageChild.Image = new BitmapImage(new Uri(@"/images/menage.png", UriKind.Relative));
+                        }
+                        if (niveau3.Niveau == "6")
+                        {
+                            menageChild.Image = new BitmapImage(new Uri(@"/images/individu1.png", UriKind.Relative));
+                        }
+                    }
+
+                }
+            }
+            #endregion
             tabIndCouverture.Focus();
         }
         public frm_verification(bool isAllDistrict, frm_view_verification mainFrame)
@@ -54,6 +135,86 @@ namespace ht.ihsi.rgph.epc.supervision.views
             tabGestionNotes.Visibility = Visibility.Hidden;
             this.IsAllDistrict = isAllDistrict;
             tabIndCouverture.Focus();
+            List<TableVerificationModel> verificationsNonReponseTotal = Utilities.getVerificatoinNonReponseTotalForAllSdes(MAIN_DATABASE_PATH);
+            List<TableVerificationModel> verificationsNonReponsePartielle = Utilities.getVerificationNonReponsePartielleForAllSdes(MAIN_DATABASE_PATH);
+            dtg_non_reponse_totale.ItemsSource = verificationsNonReponseTotal;
+            dtg_non_reponse_partielle.ItemsSource = verificationsNonReponsePartielle;
+            //Expand the node in level 2
+            foreach (TreeListNode node in treeListView1.Nodes)
+            {
+                node.IsExpanded = true;
+                node.Image = new BitmapImage(new Uri(@"/images/report3.png", UriKind.Relative));
+                foreach (TreeListNode childNode in node.Nodes)
+                {
+                    TableVerificationModel model = childNode.Content as TableVerificationModel;
+                    if (model.Niveau == "2")
+                    {
+                        childNode.IsExpanded = true;
+                        childNode.Image = new BitmapImage(new Uri(@"/images/malrempli.png", UriKind.Relative));
+                    }
+                    //Node Sde
+                    foreach (TreeListNode sdeChild in childNode.Nodes)
+                    {
+                        TableVerificationModel niveau3 = sdeChild.Content as TableVerificationModel;
+                        if (niveau3.Niveau == "3")
+                        {
+                            sdeChild.Image = new BitmapImage(new Uri(@"/images/database.png", UriKind.Relative));
+                        }
+                        //Node batiment
+                        foreach (TreeListNode batimanChild in sdeChild.Nodes)
+                        {
+                            TableVerificationModel niveau4 = batimanChild.Content as TableVerificationModel;
+                            if (niveau4.Niveau == "4")
+                            {
+                                batimanChild.Image = new BitmapImage(new Uri(@"/images/home.png", UriKind.Relative));
+                            }
+                        }
+                    }
+                }
+            }
+            //treeListView_partielle
+            //
+            foreach (TreeListNode node in treeListView_partielle.Nodes)
+            {
+                node.IsExpanded = true;
+                node.Image = new BitmapImage(new Uri(@"/images/report3.png", UriKind.Relative));
+                foreach (TreeListNode childNode in node.Nodes)
+                {
+                    TableVerificationModel model = childNode.Content as TableVerificationModel;
+                    if (model.Niveau == "2")
+                    {
+                        childNode.IsExpanded = true;
+                        childNode.Image = new BitmapImage(new Uri(@"/images/malrempli.png", UriKind.Relative));
+                    }
+                    //Node Sde
+                    foreach (TreeListNode sdeChild in childNode.Nodes)
+                    {
+                        TableVerificationModel niveau3 = sdeChild.Content as TableVerificationModel;
+                        if (niveau3.Niveau == "3")
+                        {
+                            sdeChild.Image = new BitmapImage(new Uri(@"/images/database.png", UriKind.Relative));
+                        }
+                        //Node batiment
+                        foreach (TreeListNode logementChild in sdeChild.Nodes)
+                        {
+                            TableVerificationModel niveau4 = logementChild.Content as TableVerificationModel;
+                            if (niveau4.Niveau == "4")
+                            {
+                                logementChild.Image = new BitmapImage(new Uri(@"/images/menu-image.png", UriKind.Relative));
+                            }
+                            foreach (TreeListNode batimanChild in logementChild.Nodes)
+                            {
+                                TableVerificationModel niveau5 = batimanChild.Content as TableVerificationModel;
+                                if (niveau5.Niveau == "5")
+                                {
+                                    batimanChild.Image = new BitmapImage(new Uri(@"/images/home.png", UriKind.Relative));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //
         }
         public void createGraphicSocioControls()
         {
@@ -460,6 +621,345 @@ namespace ht.ihsi.rgph.epc.supervision.views
             {
                 createIndicateursPerformances(true);
             }
+        }
+
+        private void dtg_non_reponse_partielle_AutoGeneratingColumn(object sender, AutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.FieldName == "Color")
+                e.Column.Visible = false;
+            if (e.Column.FieldName == "Niveau")
+                e.Column.Visible = false;
+            if (e.Column.FieldName == "Image")
+                e.Column.Visible = false;
+        }
+        private void dtg_non_reponse_totale_AutoGeneratingColumn(object sender, AutoGeneratingColumnEventArgs e)
+                {
+                    if (e.Column.FieldName == "Color")
+                        e.Column.Visible = false;
+                    if (e.Column.FieldName == "Niveau")
+                        e.Column.Visible = false;
+                    if (e.Column.FieldName == "Image")
+                        e.Column.Visible = false;
+                }
+        private void chartControlCompteur_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Point point = e.GetPosition(this);
+            ChartHitInfo info = chartControlCompteur.CalcHitInfo(point);
+            if (info.Series != null)
+            {
+                MessageBox.Show("" + info.Series.Name);
+            }
+
+        }
+        private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point point = e.GetPosition(this);
+            ChartHitInfo info = chartControlCompteur.CalcHitInfo(point);
+            if (info.Series != null)
+            {
+                MessageBox.Show("" + info.Series.Name);
+            }
+        }
+
+        private void gridFlag_AutoGeneratingColumn(object sender, AutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.FieldName == "Individu")
+                e.Column.Visible = false;
+
+        }
+        private void treeListView2_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
+        {
+            TreeListView listView = sender as TreeListView;
+            if (listView != null)
+            {
+                TreeListNode node = listView.FocusedNode;
+                if (node != null)
+                {
+                    if (node.HasChildren == false)
+                    {
+                        RapportFlagModel flag = node.Content as RapportFlagModel;
+                        frm_reponses frm = new frm_reponses(flag.Individu, flag.Individu.sdeId);
+                        main.listBox_sde.SelectedIndex = -1;
+                        Utilities.showControl(frm, main.grd_details);
+                    }
+                }
+            }
+
+        }
+        private void tabFlagMenage_GotFocus(object sender, RoutedEventArgs e)
+        {
+            decorator.Dispatcher.BeginInvoke((Action)(() => decorator.IsSplashScreenShown = true));
+            initializeChartControls();
+            int nbreTotal = 0;
+            try
+            {
+                reader = new SqliteReader(Utilities.getConnectionString(MAIN_DATABASE_PATH, sdeSelected.SdeId));
+                nbreTotal = reader.GetAllMenagesModel().Count;
+                Flag menage_1_Personne = reader.compteurFlagParMenages(reader.GetAllMenage_1_Personne());
+                Flag menage_2_3_Personne = reader.compteurFlagParMenages(reader.GetAllMenage_2_3_Personnes());
+                Flag menage_4_5_Personne = reader.compteurFlagParMenages(reader.GetAllMenage_4_5_Personnes());
+                Flag menage_6_Personne = reader.compteurFlagParMenages(reader.GetAllMenage_6_Personnes());
+                Flag all_menage = reader.compteurFlagParMenages(reader.GetAllMenagesModel());
+
+                //Creation des barres
+                aucunFlag.Dispatcher.BeginInvoke((Action)(() =>
+                            aucunFlag.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_Aucun, nbreTotal)))));
+                aucunFlag.Dispatcher.BeginInvoke((Action)(() =>
+                            aucunFlag.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_Aucun, nbreTotal)))));
+                aucunFlag.Dispatcher.BeginInvoke((Action)(() =>
+                            aucunFlag.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_Aucun, nbreTotal)))));
+                aucunFlag.Dispatcher.BeginInvoke((Action)(() =>
+                            aucunFlag.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_Aucun, nbreTotal)))));
+                aucunFlag.Dispatcher.BeginInvoke((Action)(() =>
+                            aucunFlag.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_Aucun, nbreTotal)))));
+
+                flag_1_4.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_1_4.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_1_4, nbreTotal)))));
+                flag_1_4.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_1_4.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_1_4, nbreTotal)))));
+                flag_1_4.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_1_4.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_1_4, nbreTotal)))));
+                flag_1_4.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_1_4.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_1_4, nbreTotal)))));
+                flag_1_4.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_1_4.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_1_4, nbreTotal)))));
+
+                flag_5_14.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_5_14.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_5_14, nbreTotal)))));
+                flag_5_14.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_5_14.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_5_14, nbreTotal)))));
+                flag_5_14.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_5_14.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_5_14, nbreTotal)))));
+                flag_5_14.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_5_14.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_5_14, nbreTotal)))));
+                flag_5_14.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_5_14.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_5_14, nbreTotal)))));
+
+                flag_15_26.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_15_26.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_15_26, nbreTotal)))));
+                flag_15_26.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_15_26.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_15_26, nbreTotal)))));
+                flag_15_26.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_15_26.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_15_26, nbreTotal)))));
+                flag_15_26.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_15_26.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_15_26, nbreTotal)))));
+                flag_15_26.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_15_26.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_15_26, nbreTotal)))));
+
+                flag_27_47.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_27_47.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_27_47, nbreTotal)))));
+                flag_27_47.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_27_47.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_27_47, nbreTotal)))));
+                flag_27_47.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_27_47.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_27_47, nbreTotal)))));
+                flag_27_47.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_27_47.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_27_47, nbreTotal)))));
+                flag_27_47.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_27_47.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_27_47, nbreTotal)))));
+
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_48_70, nbreTotal)))));
+
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_48_70, nbreTotal)))));
+                flag_48_70.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_48_70.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_48_70, nbreTotal)))));
+
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_71_130.Points.Add(new SeriesPoint("Menage Unipersonnel (1)", Utilities.getPourcentage(menage_1_Personne.Flag_71_130, nbreTotal)))));
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_71_130.Points.Add(new SeriesPoint("Ménage de deux (2) à trois (3) individus", Utilities.getPourcentage(menage_2_3_Personne.Flag_71_130, nbreTotal)))));
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_71_130.Points.Add(new SeriesPoint("Ménage de quatre (4) à cinq (5) individus", Utilities.getPourcentage(menage_4_5_Personne.Flag_71_130, nbreTotal)))));
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_71_130.Points.Add(new SeriesPoint("Ménage de six (6) individus ou plus", Utilities.getPourcentage(menage_6_Personne.Flag_71_130, nbreTotal)))));
+                flag_71_130.Dispatcher.BeginInvoke((Action)(() =>
+                            flag_71_130.Points.Add(new SeriesPoint("Tous les menages", Utilities.getPourcentage(all_menage.Flag_71_130, nbreTotal)))));
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur:" + ex.Message, Constant.WINDOW_TITLE, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            decorator.Dispatcher.BeginInvoke((Action)(() => decorator.IsSplashScreenShown = false));
+        }
+
+        private void tabCompteurFlag_GotFocus(object sender, RoutedEventArgs e)
+        {
+            decorator.Dispatcher.BeginInvoke((Action)(() => decorator.IsSplashScreenShown = true));
+            tabFlagCounterFocus = true;
+            initializeChartControls();
+            try
+            {
+                //ouvrir le decorateur
+                //decoratorTab.Dispatcher.BeginInvoke((Action)(() => decoratorTab.IsSplashScreenShown = true));
+                IConfigurationService configuration = new ConfigurationService();
+                int nbreTotal = 0;
+                Flag flagPopulationParDistrict = new Flag();
+                Flag flagAgeDateNaissanceParDistrict = new Flag();
+                Flag flagFeconditeParDistrict = new Flag();
+                Flag flagEmploiParDistrict = new Flag();
+                if (IsAllDistrict == true)
+                {
+                    foreach (SdeModel sde in configuration.searchAllSdes())
+                    {
+                        reader = new SqliteReader(Utilities.getConnectionString(MAIN_DATABASE_PATH, sde.SdeId));
+                        List<IndividuModel> individus = reader.GetAllIndividusModel();
+                        nbreTotal += individus.Count;
+                        Flag flagPopulation = reader.CountTotalFlag(individus);
+                        Flag flagAgeDateNaissance = reader.Count2FlagAgeDateNaissance();
+                        Flag flagFecondite = reader.CountFlagFecondite();
+                        //Flag flagEmploi = reader.CountFlagEmploi();
+                        flagPopulationParDistrict.Flag0 += flagPopulation.Flag0;
+                        flagPopulationParDistrict.Flag1 += flagPopulation.Flag1;
+                        flagPopulationParDistrict.Flag2 += flagPopulation.Flag2;
+                        flagPopulationParDistrict.Flag3 += flagPopulation.Flag3;
+                        flagPopulationParDistrict.Flag4 += flagPopulation.Flag4;
+                        flagPopulationParDistrict.Flag5 += flagPopulation.Flag5;
+                        flagPopulationParDistrict.Flag6 += flagPopulation.Flag6;
+                        flagPopulationParDistrict.Flag7 += flagPopulation.Flag7;
+                        flagPopulationParDistrict.Flag8 += flagPopulation.Flag8;
+                        flagPopulationParDistrict.Flag9 += flagPopulation.Flag9;
+                        flagPopulationParDistrict.Flag10 += flagPopulation.Flag10;
+                        flagPopulationParDistrict.Flag11 += flagPopulation.Flag11;
+                        flagPopulationParDistrict.Flag12 += flagPopulation.Flag12;
+
+                        flagAgeDateNaissanceParDistrict.Flag0 += flagAgeDateNaissance.Flag0;
+                        flagAgeDateNaissanceParDistrict.Flag1 += flagAgeDateNaissance.Flag1;
+                        flagAgeDateNaissanceParDistrict.Flag2 += flagAgeDateNaissance.Flag2;
+                        flagAgeDateNaissanceParDistrict.Flag3 += flagAgeDateNaissance.Flag3;
+                        flagAgeDateNaissanceParDistrict.Flag4 += flagAgeDateNaissance.Flag4;
+                        flagAgeDateNaissanceParDistrict.Flag5 += flagAgeDateNaissance.Flag5;
+                        flagAgeDateNaissanceParDistrict.Flag6 += flagAgeDateNaissance.Flag6;
+
+                        flagFeconditeParDistrict.Flag0 += flagFecondite.Flag0;
+                        flagFeconditeParDistrict.Flag1 += flagFecondite.Flag1;
+                        flagFeconditeParDistrict.Flag2 += flagFecondite.Flag2;
+                        flagFeconditeParDistrict.Flag3 += flagFecondite.Flag3;
+                        flagFeconditeParDistrict.Flag4 += flagFecondite.Flag4;
+                        flagFeconditeParDistrict.Flag5 += flagFecondite.Flag5;
+                        flagFeconditeParDistrict.Flag6 += flagFecondite.Flag6;
+
+                        //flagEmploiParDistrict.Flag0 += flagEmploi.Flag0;
+                        //flagEmploiParDistrict.Flag1 += flagEmploi.Flag1;
+                        //flagEmploiParDistrict.Flag2 += flagEmploi.Flag2;
+                        //flagEmploiParDistrict.Flag3 += flagEmploi.Flag3;
+                        //flagEmploiParDistrict.Flag4 += flagEmploi.Flag4;
+                        //flagEmploiParDistrict.Flag5 += flagEmploi.Flag5;
+                        //flagEmploiParDistrict.Flag6 += flagEmploi.Flag6;
+                    }
+                }
+                else
+                {
+                    reader = new SqliteReader(Utilities.getConnectionString(MAIN_DATABASE_PATH, sdeSelected.SdeId));
+                    List<IndividuModel> individus = reader.GetAllIndividusModel();
+                    nbreTotal += individus.Count;
+                    flagPopulationParDistrict = reader.CountTotalFlag(individus);
+                    flagAgeDateNaissanceParDistrict = reader.Count2FlagAgeDateNaissance();
+                    flagFeconditeParDistrict = reader.CountFlagFecondite();
+                    //flagEmploiParDistrict = reader.CountFlagEmploi();
+                    //Fill the grid
+                    gridFlag.Dispatcher.BeginInvoke((Action)(() => gridFlag.ItemsSource = Utilities.getListOfIndividuWithFlag(MAIN_DATABASE_PATH, sdeSelected.SdeId)));
+                }
+
+                chartFlag0.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag0.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag0, nbreTotal)))));
+                chartFlag0.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag0.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag0, nbreTotal)))));
+                chartFlag0.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag0.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag0, nbreTotal)))));
+                chartFlag0.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag0.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag0, nbreTotal)))));
+
+                chartFlag1.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag1.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag1, nbreTotal)))));
+                chartFlag1.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag1.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag1, nbreTotal)))));
+                chartFlag1.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag1.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag1, nbreTotal)))));
+                chartFlag1.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag1.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag1, nbreTotal)))));
+
+                chartFlag2.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag2.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag2, nbreTotal)))));
+                chartFlag2.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag2.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag2, nbreTotal)))));
+                chartFlag2.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag2.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag2, nbreTotal)))));
+                chartFlag2.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag2.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag2, nbreTotal)))));
+
+                chartFlag3.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag3.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag3, nbreTotal)))));
+                chartFlag3.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag3.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag3, nbreTotal)))));
+                chartFlag3.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag3.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag3, nbreTotal)))));
+                chartFlag3.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag3.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag3, nbreTotal)))));
+
+                chartFlag4.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag4.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag4, nbreTotal)))));
+                chartFlag4.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag4.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag4, nbreTotal)))));
+                chartFlag4.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag4.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag4, nbreTotal)))));
+                chartFlag4.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag4.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag4, nbreTotal)))));
+
+                chartFlag5.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag5.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag5, nbreTotal)))));
+                chartFlag5.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag5.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag5, nbreTotal)))));
+                chartFlag5.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag5.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag5, nbreTotal)))));
+                chartFlag5.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag5.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag5, nbreTotal)))));
+
+                chartFlag6.Dispatcher.BeginInvoke((Action)(() =>
+                            chartFlag6.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag6, nbreTotal)))));
+                chartFlag6.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag6.Points.Add(new SeriesPoint("Population Totale (2 Flags au total)", Utilities.getPourcentage(flagAgeDateNaissanceParDistrict.Flag6, nbreTotal)))));
+                chartFlag6.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag6.Points.Add(new SeriesPoint("Femmes de 13 ans et plus", Utilities.getPourcentage(flagFeconditeParDistrict.Flag6, nbreTotal)))));
+                chartFlag6.Dispatcher.BeginInvoke((Action)(() =>
+                             chartFlag6.Points.Add(new SeriesPoint("Population de 10 ans et plus avec un emploi", Utilities.getPourcentage(flagEmploiParDistrict.Flag6, nbreTotal)))));
+                chartFlag7.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag7.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag7, nbreTotal)))));
+                chartFlag8.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag8.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag8, nbreTotal)))));
+                chartFlag9.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag9.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag9, nbreTotal)))));
+                chartFlag10.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag10.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag10, nbreTotal)))));
+                chartFlag11.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag11.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag11, nbreTotal)))));
+                chartFlag12.Dispatcher.BeginInvoke((Action)(() =>
+                           chartFlag12.Points.Add(new SeriesPoint("Population Totale (13 Flags au total)", Utilities.getPourcentage(flagPopulationParDistrict.Flag12, nbreTotal)))));
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("" + ex.Message);
+            }
+            //fermer le decorateur
+            decorator.Dispatcher.BeginInvoke((Action)(() => decorator.IsSplashScreenShown = false));
         }
 
     }

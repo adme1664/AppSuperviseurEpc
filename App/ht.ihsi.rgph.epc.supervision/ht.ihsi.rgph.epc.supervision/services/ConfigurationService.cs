@@ -35,9 +35,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 return ModelMapper.MapTo(daoConfiguration.getSdeByAgent(agentId));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return new models.SdeModel();
         }
@@ -53,9 +53,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 return ModelMapper.MapTo(daoConfiguration.searchAllAgents());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return new List<AgentModel>();
         }
@@ -71,9 +71,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 daoConfiguration.updateAgent(ModelMapper.MapTo(agent));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
         }
 
@@ -85,7 +85,7 @@ namespace ht.ihsi.rgph.epc.supervision.services
             }
             catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return new AgentModel();
         }
@@ -98,7 +98,7 @@ namespace ht.ihsi.rgph.epc.supervision.services
             }
             catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return new AgentModel();
         }
@@ -114,9 +114,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 return daoConfiguration.isAgentGotDevice(agentId);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return false;
         }
@@ -152,9 +152,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 return ModelMapper.MapTo(daoConfiguration.searchAllSdes());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return new List<models.SdeModel>();
         }
@@ -164,9 +164,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
             {
                 return daoConfiguration.saveSdeDetails(sde);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return false;
         }
@@ -178,9 +178,9 @@ namespace ht.ihsi.rgph.epc.supervision.services
                 return ModelMapper.MapTo(daoConfiguration.getSdeDetails(sdeId));
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                log.Info("ERROR/Configuration=>:" + e.Message);
             }
             return null;
         }

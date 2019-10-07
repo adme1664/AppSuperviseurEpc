@@ -228,6 +228,8 @@
     <Compile Include="models\CategorieQuestionModel.cs" />
     <Compile Include="models\CouvertureModel.cs" />
     <Compile Include="models\DataDetails.cs" />
+    <Compile Include="models\DetailsRapportModel.cs" />
+    <Compile Include="models\Flag.cs" />
     <Compile Include="models\IndividuModel.cs" />
     <Compile Include="models\KeyValue.cs" />
     <Compile Include="models\LogementModel.cs" />
@@ -238,15 +240,23 @@
     <Compile Include="models\QuestionModel.cs" />
     <Compile Include="models\QuestionModule.cs" />
     <Compile Include="models\QuestionReponseModel.cs" />
+    <Compile Include="models\RapportDeroulementModel.cs" />
     <Compile Include="models\RapportFinalModel.cs" />
+    <Compile Include="models\RapportFlagModel.cs" />
+    <Compile Include="models\RapportPersonnelModel.cs" />
+    <Compile Include="models\SdeInformation.cs" />
     <Compile Include="models\SdeModel.cs" />
+    <Compile Include="models\TableVerificationModel.cs" />
     <Compile Include="models\TextModel.cs" />
     <Compile Include="models\UtilisateurModel.cs" />
+    <Compile Include="models\VerificationFlag.cs" />
     <Compile Include="MVVM\TreeViewItemViewModel.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
+    <Compile Include="services\RapportService.cs" />
     <Compile Include="services\ConfigurationService.cs" />
     <Compile Include="services\ConsumeApiService.cs" />
     <Compile Include="services\IConfigurationService.cs" />
+    <Compile Include="services\IRapportService.cs" />
     <Compile Include="services\IUtilisateurService.cs" />
     <Compile Include="models\MenageTypeModel.cs" />
     <Compile Include="services\SqliteDataReaderService.cs" />
@@ -256,6 +266,8 @@
     <Compile Include="utils\DeviceManager.cs" />
     <Compile Include="utils\IsqliteDataWriter.cs" />
     <Compile Include="utils\ISqliteReader.cs" />
+    <Compile Include="models\ReponseModel.cs" />
+    <Compile Include="models\RapportArModel.cs" />
     <Compile Include="utils\SqliteDataWriter.cs" />
     <Compile Include="utils\SqliteReader.cs" />
     <Compile Include="utils\StringValueAttribute.cs" />
@@ -282,8 +294,17 @@
     <Compile Include="views\frm_pop_verified_validate.xaml.cs">
       <DependentUpon>frm_pop_verified_validate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\frm_questions_agents.xaml.cs">
+      <DependentUpon>frm_questions_agents.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\frm_reponses.xaml.cs">
       <DependentUpon>frm_reponses.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\frm_rpt_deroulement_details.xaml.cs">
+      <DependentUpon>frm_rpt_deroulement_details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\frm_rpt_personnel.xaml.cs">
+      <DependentUpon>frm_rpt_personnel.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\frm_verification.xaml.cs">
       <DependentUpon>frm_verification.xaml</DependentUpon>
@@ -299,6 +320,9 @@
     </Compile>
     <Compile Include="views\MainFrame.xaml.cs">
       <DependentUpon>MainFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\frm_rpt_deroulement.xaml.cs">
+      <DependentUpon>frm_rpt_deroulement.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -328,7 +352,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\frm_questions_agents.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\frm_reponses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\frm_rpt_deroulement_details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\frm_rpt_personnel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -349,6 +385,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\MainFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\frm_rpt_deroulement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,7 +413,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Data\rgph_epc-db.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -387,7 +427,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App_data\rapports.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="images\arrow.png" />
     <Resource Include="images\batiment.png" />

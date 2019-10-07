@@ -17,5 +17,6 @@ namespace ht.ihsi.rgph.epc.supervision.models
         public string VqseId { get; set; }
         public string Zone { get; set; }
         public String SdeName { get; set; }
+        public string AgentName { get; set; }
     }
 }

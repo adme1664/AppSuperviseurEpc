@@ -40,5 +40,6 @@ namespace ht.ihsi.rgph.epc.supervision.models
         public Nullable<long> isContreEnqueteMade { get; set; }
         public string codeAgentRecenceur { get; set; }
         public Nullable<long> isVerified { get; set; }
+        public string Raison { get; set; }
     }
 }

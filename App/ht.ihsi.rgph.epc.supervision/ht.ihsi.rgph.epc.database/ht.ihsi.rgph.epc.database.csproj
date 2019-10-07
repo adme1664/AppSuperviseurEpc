@@ -71,8 +71,10 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="dao\DaoConfiguration.cs" />
+    <Compile Include="dao\DaoRapports.cs" />
     <Compile Include="dao\IDaoConfiguration.cs" />
     <Compile Include="dao\DaoUtilisateur.cs" />
+    <Compile Include="dao\IDaoRapports.cs" />
     <Compile Include="dao\IDaoUtilisateur.cs" />
     <Compile Include="entities\EpcEntities.Context.cs">
       <AutoGen>True</AutoGen>
@@ -122,6 +124,9 @@
     <Compile Include="entities\tbl_departement.cs">
       <DependentUpon>EpcEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="entities\Tbl_DetailsRapport.cs">
+      <DependentUpon>SupEpcEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="entities\tbl_domaine_etude.cs">
       <DependentUpon>EpcEntities.tt</DependentUpon>
     </Compile>
@@ -158,8 +163,14 @@
     <Compile Include="entities\tbl_rapportfinal.cs">
       <DependentUpon>EpcEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="entities\Tbl_RapportPersonnel.cs">
+      <DependentUpon>SupEpcEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="entities\tbl_rapportrar.cs">
       <DependentUpon>EpcEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="entities\Tbl_RprtDeroulement.cs">
+      <DependentUpon>SupEpcEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="entities\Tbl_Sde.cs">
       <DependentUpon>SupEpcEntities.tt</DependentUpon>

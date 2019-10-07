@@ -121,7 +121,16 @@ namespace ht.ihsi.rgph.epc.supervision.views
             main_grid_1.IsSplashScreenShown = false;
             bbi_avances.Focus();
         }
-    
+        private void bbi_rapports_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        {
+            deselectedBarItem();
+            bbi_rapports.Dispatcher.BeginInvoke((Action)(() => bbi_rapports.IsChecked = true));
+            main_grid_1.IsSplashScreenShown = true;
+            frm_rpt_personnel conf = new frm_rpt_personnel();
+            Utilities.showControl(conf, main_grid);
+            main_grid_1.IsSplashScreenShown = false;
+            bbi_rapports.Focus();
+        }
         private void bbi_agents_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
             deselectedBarItem();
@@ -188,7 +197,15 @@ namespace ht.ihsi.rgph.epc.supervision.views
             main_grid_1.IsSplashScreenShown = false;
             bbc_verification.Focus();
         }
-
+        private void rpc_rpt_deroulement_collecte_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        {
+            deselectedBarItem();
+            rpc_rpt_deroulement_collecte.Dispatcher.BeginInvoke((Action)(() => rpc_rpt_deroulement_collecte.IsChecked = true));
+            main_grid_1.IsSplashScreenShown = true;
+            frm_rpt_deroulement rpt = new frm_rpt_deroulement();
+            Utilities.showControl(rpt, main_grid);
+            main_grid_1.IsSplashScreenShown = false;
+        }
       
 
     }

@@ -14,7 +14,7 @@ namespace ht.ihsi.rgph.epc.supervision.viewmodels
     {
         readonly LogementModel _logement;
         Logger log;
-        public SqliteDataReaderService service = null;
+        public SqliteDataReaderService service;
         public LogementModel Logement
         {
             get { return _logement; }

@@ -1,4 +1,4 @@
-﻿// La génération de code T4 est activée pour le modèle 'D:\WORKSPACE\CSHARP\DESKSTOP_APPLICATION\AppSuperviseurEpc\App\ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.database\entities\SupEpcEntities.edmx'. 
+﻿// La génération de code T4 est activée pour le modèle 'F:\workspace\C#\Desktop\AppSuperviseurEpc\App\ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.database\entities\SupEpcEntities.edmx'. 
 // Pour activer la génération de code héritée, définissez la valeur de la propriété
 // du concepteur 'Stratégie de génération de code' sur 'ObjectContext hérité'. Cette propriété est disponible dans la fenêtre Propriétés lorsque le modèle
 //  est ouvert dans le concepteur.

@@ -13,6 +13,9 @@ namespace ht.ihsi.rgph.epc.supervision.utils
        #region BATIMENTS
        List<BatimentModel> GetAllBatimentModel();
        BatimentModel GetBatimentbyId(long batimentId);
+       List<BatimentModel> GetAllBatimentsInobservables();
+       List<BatimentModel> GetAllBatimentNonTermine();
+       List<BatimentModel> GetAllBatimentsWithAtLeastOneBlankObject();
        #endregion
 
        #region Logements
@@ -20,21 +23,40 @@ namespace ht.ihsi.rgph.epc.supervision.utils
        List<LogementModel> GetAllLogementsByBatiment(long batimentId);
        LogementModel GetLogementById(long logementId);
        List<LogementModel> GetLogementIByBatiment(long batimentId);
+       List<LogementModel> GetAllLogementNonTermines();
+       List<LogementModel> GetAllLogementOccupantAbsent();
        #endregion
 
        #region Menages
+       List<MenageModel> GetAllMenageNonTermine();
        List<MenageModel> GetAllMenagesModel();
        List<MenageModel> GetMenagesByLogement(long logementId);
        List<MenageModel> GetMenagesByBatiment(long batimentId);
        MenageModel GetMenageById(long menageId);
+       Flag compteurFlagParMenages(List<MenageModel> menages);
+       List<MenageModel> GetAllMenage_1_Personne();
+       List<MenageModel> GetAllMenage_2_3_Personnes();
+       List<MenageModel> GetAllMenage_4_5_Personnes();
+       List<MenageModel> GetAllMenage_6_Personnes();
        #endregion
 
        #region Individus
+       List<IndividuModel> GetAllIndividuNonTermine();
        List<IndividuModel> GetAllIndividusModel();
        List<IndividuModel> GetAllIndividusByMenage(long menageId);
        List<IndividuModel> GetAllIndividusByLogement(long logementId);
        IndividuModel GetIndividuModel(long individuId);
        List<MenageDetailsModel> GetIndividuByMenageDetails(long menageId);
+
+       //Flag getIndividuWithP10();
+       //Flag getIndividuWithP12();
+       //Flag getIndividuWithA5();
+       //Flag getIndividuWithA7();
+       Flag CountTotalFlag(List<IndividuModel> individus);
+       Flag Count2FlagAgeDateNaissance();
+       Flag CountFlagFecondite();
+       string locateIndividu(IndividuModel individu);
+       //Flag CountFlagEmploi();
        #endregion
 
        #region AncienMembre
@@ -122,6 +144,15 @@ namespace ht.ihsi.rgph.epc.supervision.utils
        int getTotalIndRecenseNTermine();
        int getTotalAncienMembreTermine();
        int getTotalAncienMembreNTermine();
+       #endregion
+
+       #region RAPPORT AGENT RECENSEUR
+       List<RapportArModel> GetAllRptAgentRecenseur();
+       List<RapportArModel> GetAllRptAgentRecenseurByBatiment(long batimentId);
+       List<RapportArModel> GetAllRptAgentRecenseurByLogement(long logeId);
+       List<RapportArModel> GetAllRptAgentRecenseurByIndividu(long individuId);
+       List<RapportArModel> GetAllRptAgentRecenseurForNotFinishedObject();
+       List<RapportArModel> GetAllRptAgentRecenseurByMenage(long menageId);
        #endregion
    }
 }

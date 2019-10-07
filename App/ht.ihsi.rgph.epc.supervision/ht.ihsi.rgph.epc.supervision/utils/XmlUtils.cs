@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ht.ihsi.rgph.epc.supervision.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,13 @@ namespace ht.ihsi.rgph.epc.supervision.utils
 {
     public class XmlUtils
     {
+        #region DECLARATIONS ...
         XElement element;
         private string adrServer;
         private string uri;
+        #endregion
 
+        #region PROPERTIES...
         public string Uri
         {
             get { return uri; }
@@ -24,6 +28,9 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             get { return adrServer; }
             set { adrServer = value; }
         }
+        #endregion
+
+        #region UTILS...
         public XmlUtils()
         {
 
@@ -98,5 +105,256 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             }
             return false;
         }
+        #endregion
+
+        #region RAPPORT DEROULEMENT COLLECTE
+        /// <summary>
+        /// Retourne la liste des sous domaines
+        /// </summary>
+        /// <returns>List<KeyValue></returns>
+        public List<KeyValue> listOfDomaines()
+        {
+            List<KeyValue> listof = new List<KeyValue>();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    KeyValue val = new KeyValue((int)d.Attribute("code"), (string)d.Attribute("name"));
+                    listof.Add(val);
+                }
+            }
+            return listof;
+        }
+        public List<KeyValue> listOfSousDomaines()
+        {
+            List<KeyValue> listof = new List<KeyValue>();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    KeyValue val = new KeyValue((int)d.Attribute("code"), (string)d.Attribute("name"));
+                    listof.Add(val);
+                }
+            }
+            return listof;
+        }
+
+        public List<KeyValue> listOfSousDomaines(string codeDomaine)
+        {
+            List<KeyValue> listOf = new List<KeyValue>();
+            if (element != null)
+            {
+                var sousDomaines = from rapport in element.Elements("domaine")
+                                   where (string)rapport.Attribute("code") == codeDomaine
+                                   select rapport.Elements("sousDomaine");
+                foreach (var sousDomaine in sousDomaines)
+                {
+                    foreach (var sd in sousDomaine)
+                    {
+                        KeyValue val = new KeyValue((int)sd.Attribute("code"), (string)sd.Attribute("name"));
+                        listOf.Add(val);
+                    }
+                }
+            }
+            return listOf;
+        }
+
+        public List<KeyValue> listOfProblemes(string codeDomaine, string codeSousDomaine)
+        {
+            List<KeyValue> listOf = new List<KeyValue>();
+            if (element != null)
+            {
+                var sousDomaines = from rapport in element.Elements("domaine")
+                                   where (string)rapport.Attribute("code") == codeDomaine
+                                   select rapport.Elements("sousDomaine");
+                foreach (var sousDomaine in sousDomaines)
+                {
+                    foreach (var sd in sousDomaine)
+                    {
+                        if ((string)sd.Attribute("code") == codeSousDomaine)
+                        {
+                            var problemes = sd.Elements("probleme");
+                            foreach (var probleme in problemes)
+                            {
+                                KeyValue prob = new KeyValue((int)probleme.Attribute("code"), probleme.Value);
+                                listOf.Add(prob);
+                            }
+                        }
+                    }
+                }
+            }
+            return listOf;
+        }
+
+        public List<KeyValue> listOfSolutions(string codeDomaine, string codeSousDomaine)
+        {
+            List<KeyValue> listOf = new List<KeyValue>();
+            if (element != null)
+            {
+                var sousDomaines = from rapport in element.Elements("domaine")
+                                   where (string)rapport.Attribute("code") == codeDomaine
+                                   select rapport.Elements("sousDomaine");
+                foreach (var sousDomaine in sousDomaines)
+                {
+                    foreach (var sd in sousDomaine)
+                    {
+                        if ((string)sd.Attribute("code") == codeSousDomaine)
+                        {
+                            var solutions = sd.Elements("solution");
+                            foreach (var solution in solutions)
+                            {
+                                KeyValue sol = new KeyValue((int)solution.Attribute("code"), solution.Value);
+                                listOf.Add(sol);
+                            }
+                        }
+                    }
+                }
+            }
+            return listOf;
+        }
+
+        public List<KeyValue> listOfSuivi()
+        {
+            List<KeyValue> listOf = new List<KeyValue>();
+            if (element != null)
+            {
+                var suivis = element.Elements("suivi");
+                foreach (var suivi in suivis)
+                {
+                    KeyValue key = new KeyValue((int)suivi.Attribute("code"), suivi.Value);
+                    listOf.Add(key);
+                }
+            }
+            return listOf;
+        }
+
+        public KeyValue getDomaine(int code)
+        {
+            KeyValue domaine = new KeyValue();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    if ((int)d.Attribute("code") == code)
+                    {
+                        domaine = new KeyValue((int)d.Attribute("code"), (string)d.Attribute("name"));
+                        break;
+                    }
+                }
+            }
+            return domaine;
+        }
+
+        public KeyValue getSousDomaine(int codeDomaine, int codeSousDomaine)
+        {
+            KeyValue sousDomaine = new KeyValue();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    if ((int)d.Attribute("code") == codeDomaine)
+                    {
+                        var sousDomaines = d.Elements("sousDomaine");
+                        foreach (var sd in sousDomaines)
+                        {
+                            if ((int)sd.Attribute("code") == codeSousDomaine)
+                            {
+                                sousDomaine = new KeyValue((int)sd.Attribute("code"), (string)sd.Attribute("name"));
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return sousDomaine;
+        }
+
+        public KeyValue getProbleme(int codeDomaine, int codeSousDomaine, int codeProbleme)
+        {
+            KeyValue probleme = new KeyValue();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    if ((int)d.Attribute("code") == codeDomaine)
+                    {
+                        var sousDomaines = d.Elements("sousDomaine");
+                        foreach (var sd in sousDomaines)
+                        {
+                            if ((int)sd.Attribute("code") == codeSousDomaine)
+                            {
+                                var problemes = sd.Elements("probleme");
+                                foreach (var prob in problemes)
+                                {
+                                    if ((int)prob.Attribute("code") == codeProbleme)
+                                    {
+                                        probleme = new KeyValue((int)prob.Attribute("code"), prob.Value);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return probleme;
+        }
+
+        public KeyValue getSolution(int codeDomaine, int codeSousDomaine, int codeSolution)
+        {
+            KeyValue solution = new KeyValue();
+            if (element != null)
+            {
+                var domaines = element.Elements("domaine");
+                foreach (var d in domaines)
+                {
+                    if ((int)d.Attribute("code") == codeDomaine)
+                    {
+                        var sousDomaines = d.Elements("sousDomaine");
+                        foreach (var sd in sousDomaines)
+                        {
+                            if ((int)sd.Attribute("code") == codeSousDomaine)
+                            {
+                                var solutions = sd.Elements("solution");
+                                foreach (var sol in solutions)
+                                {
+                                    if ((int)sol.Attribute("code") == codeSolution)
+                                    {
+                                        solution = new KeyValue((int)sol.Attribute("code"), sol.Value);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return solution;
+        }
+
+        public KeyValue getSuivi(int codeSuivi)
+        {
+            KeyValue suivi = new KeyValue();
+            if (element != null)
+            {
+                var suivis = element.Elements("suivi");
+                foreach (var sv in suivis)
+                {
+                    if ((int)sv.Attribute("code") == codeSuivi)
+                    {
+                        suivi = new KeyValue((int)sv.Attribute("code"), sv.Value);
+                        break;
+                    }
+                }
+            }
+            return suivi;
+        }
+        #endregion
     }
 }

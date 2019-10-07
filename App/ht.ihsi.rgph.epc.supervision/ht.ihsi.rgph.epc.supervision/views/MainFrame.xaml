@@ -35,6 +35,19 @@
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
             </dxr:RibbonPageCategory>
+            <dxr:RibbonPageCategory x:Name="rpc_tab_rapports" Color="White">
+                <dxr:RibbonPage Caption="RAPPORTS" Name="page_rapports">
+                    <dxr:RibbonPageGroup ToolTip="Rapports">
+                        <dxb:BarCheckItem x:Name="bbi_rapports" Content="Rapport de Supervision directe" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/user.png" ItemClick="bbi_rapports_ItemClick" />
+                        <dxb:BarItemSeparator/>
+                        <dxb:BarItemSeparator/>
+                        <dxb:BarItemSeparator/>
+                    </dxr:RibbonPageGroup>
+                    <dxr:RibbonPageGroup>
+                        <dxb:BarCheckItem Name="rpc_rpt_deroulement_collecte" Content="Rapport sur le deroulement de la collecte" LargeGlyph="pack://application:,,,/ht.ihsi.rgph.epc.supervision;component/images/individu1.png"  RibbonStyle="Large" ItemClick="rpc_rpt_deroulement_collecte_ItemClick" />
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonPageCategory>
             <dxr:RibbonPageCategory x:Name="rpc_tab_bord" Color="White">
                 <dxr:RibbonPage Caption="CONFIGURATIONS" Name="page_configuration">
                     <dxr:RibbonPageGroup ToolTip="Configurations">

@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rapports>
+
+  <domaine code="1" name="Terrain">
+    <sousDomaine code="1" name="CARTOGRAPHIE 1 - Reconnaissance des lieux pré-collecte">
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Carte incomplète </probleme>
+      <probleme code="2">2. Délimitation erronée </probleme>
+      <probleme code="3">3. Aires avec habitat supplémentaire</probleme>
+      <probleme code="4">4. Aires avec habitat détruit/inoccupé</probleme>
+      <probleme code="5">5. Indications erronées (hors délimitation</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+      <solution code="1">1. Requête d´une carte pertinente </solution>
+      <solution code="2">2. Recherche d´informations complémentaires sur le terrain </solution>
+      <solution code="3">3. Recours au responsable départemental   </solution>
+      <solution code="9">9. Autre </solution>
+    </sousDomaine>
+
+    <sousDomaine code="2" name="CARTOGRAPHIE  2 - Couverture collecte">
+      <probleme code="1">1. Omission constatée </probleme>
+      <probleme code="2">2. Doublon possible</probleme>
+      <probleme code="3">3. Doublon constaté</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+      <solution code="1">1. Mobilisation AE sur l´aire omise et contre-enquête </solution>
+      <solution code="2">2. Vérification avec le responsable départemental et les autres superviseurs / Doublon possible</solution>
+      <solution code="3">3. Alerte au Responsable départemental pour signalement doublon</solution>
+      <solution code="9">9. Autre </solution>
+    </sousDomaine>
+
+    <sousDomaine code="3" name="GESTION TERRAIN">
+      <probleme code="0">0. Aucun problème </probleme>
+      <probleme code="1">1. Frais non disponibles pour recrutement/paiement guide</probleme>
+      <probleme code="2">2. Non disponbilité de guide/incitation salariale insuffisante</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+      <solution code="1">1. Location de moto</solution>
+      <solution code="2">2. Temps de déplacement long/allongement de la collecte </solution>
+      <solution code="9">9. Autre </solution>
+    </sousDomaine>
+
+  </domaine>
+
+  <domaine code="2" name="RÉALISATION ENTREVUES">
+
+    <sousDomaine code="4" name="INTERACTIONS AVEC LA POPULATION">
+      <probleme code="0">0. Aucun problème </probleme>
+      <probleme code="1">1. Refus fréquents </probleme>
+      <probleme code="2">2. Difficultés à convertir les refus en acceptation</probleme>
+
+      <solution code="0">0. aucune solution</solution>
+      <solution code="1">1. Conversion des refus par le SD </solution>
+      <solution code="2">2. Conversion des refus par les RD </solution>
+      <solution code="9">9. Autre </solution>
+    </sousDomaine>
+
+    <sousDomaine code="5" name="INTERACTIONS AVEC LA RÉPONDANTS">
+      <probleme code="1">1. Manque de sensibilisation</probleme>
+      <probleme code="2">2. Difficultés dans la réception</probleme>
+      <probleme code="3">3. Revendications particulières de certains répondants (lettre, langue, gestion des différends politiques)</probleme>
+      <probleme code="4">4. Hostilité répandue </probleme>
+      <probleme code="9">9. Autre</probleme>
+
+      <solution code="1">1. Sensibilisation ad hoc par le superviseur</solution>
+      <solution code="2">2. Recours au responsable départemental</solution>
+      <solution code="9">9. Autre</solution>
+    </sousDomaine>
+
+    <sousDomaine code="6" name="QUESTIONNAIRE">
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Réticence des répondants sur certains modules</probleme>
+      <probleme code="2">2. Questions jugées sensibles 3. Instructions insuffisantes ou peu claires pour certaines questions</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+      <solution code="1">1. Consolidation de la formation sur le terrain…</solution>
+      <solution code="2">2. Recours au forum électronique </solution>
+      <solution code="9">9. Autre</solution>
+    </sousDomaine>
+
+    <sousDomaine code="7" name="DURÉE DE L´ENTREVUE">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Durée entrevue non maîtrisée par certains agents</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Consolidation de la formation de l´AR sur le terrain</solution>
+      <solution code="2">2. Supervision rapprochée des agents plus lents que la moyenne</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="8" name="TABLETTE">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Tendance au blocage (freeze)</probleme>
+      <probleme code="2">2. Sensibilité excessive écran</probleme>
+      <probleme code="3">3. Sensibilité insuffisante de l´écran </probleme>
+      <probleme code="4">4. Pannes fréquentes</probleme>
+      <probleme code="5">5. Tablette défectueuse</probleme>
+
+
+      <solution code="1">1. Requête d´intervention de l´ASTIC départemental auprès du RD</solution>
+      <solution code="2">2. Requête d´équipement de remplacement auprès du RD</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="9" name="ACCESSOIRES">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Accessoires défectueux</probleme>
+      <probleme code="2">2. Batteries</probleme>
+
+
+      <solution code="1">1. Requête d´accessoires de remplacement auprès du RD</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="10" name="APPLICATION MOBILE">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Tendance au blocage (freeze)</probleme>
+      <probleme code="2">2. Présence de BUGS</probleme>
+      <probleme code="3">3. Navigation lente</probleme>
+      <probleme code="4">4. Instabilité déploiement application</probleme>
+      <probleme code="5">5. Perte informations</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Intervention ASTIC départemental opportune</solution>
+      <solution code="2">2. Intervention ASTIC départemental  </solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="11" name="APPUI ASTIC">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Non disponibilité ASTIC en temps opportun</probleme>
+      <probleme code="2">2. ASTIC départemental dépendant de l´ASTIC départemental</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Demande d´assignation d´un nouvel ASTIC</solution>
+      <solution code="2">2. Recours à l´ASTIC départemental</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+
+  </domaine>
+
+  <domaine code="3" name="SUPERVISION">
+
+    <sousDomaine code="12" name="SUPERVISION DIRECTE">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Absences répétées agent recenseur</probleme>
+      <probleme code="2">2. Retards par dans planification / difficultés d´accès aux SDE </probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Mobilisation AR</solution>
+      <solution code="2">2. Révocation AR</solution>
+      <solution code="3">3. Requête de moyens exceptionnels de déplacement</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="13" name="SUPERVISION INDIRECTE / CONTRE-ENQUÊTES">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Refus contre-enquêtes</probleme>
+      <probleme code="2">2. Répondants peu coopératifs</probleme>
+      <probleme code="3">3. Bugs du module de contre-enquête de l´application de supervision</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Sensibilisation ad hoc</solution>
+      <solution code="2">2. Abandon contre-enquête en dernière instance</solution>
+      <solution code="3">3. Requête d´intervention ASTIC départemental</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="14" name="SUPERVISION INDIRECTE / VÉRIFICATION">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Processus de vérification long</probleme>
+      <probleme code="2">2. Longs ntervalles de transferts de données et trop de données à vérifier</probleme>
+      <probleme code="3">3. Bugs du module de vérification de l´application</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Raccourcir les délais</solution>
+      <solution code="2">2. Requête intervention ASTIC départemental pour les bugs </solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+    <sousDomaine code="15" name="SUPERVISION INDIRECTE / APPLICATION DE SUPERVISION">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Tendance au blocage (freeze)</probleme>
+      <probleme code="2">2. Navigation lente 3. Instabilité déploiement application</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Intervention ASTIC départemental opportune</solution>
+      <solution code="2">2. Intervention ASTIC départemental</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+  </domaine>
+
+  <domaine code="4" name="GESTION DU PERSONNEL">
+
+    <sousDomaine code="16" name="GESTION DU PERSONNEL">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Démission AR</probleme>
+      <probleme code="2">2. Révocation AR à envisager</probleme>
+      <probleme code="3">3. Conflits à gérer</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Communication de la démission au RD</solution>
+      <solution code="2">2. Communication des justifications de la révocation à effectuer</solution>
+      <solution code="3">3. Requête intervention du RD</solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+  </domaine>
+
+  <domaine code="5" name="GESTION DES ÉQUIPEMENTS ET ACCESSOIRES">
+
+    <sousDomaine code="16" name="GESTION DES ÉQUIPEMENTS ET ACCESSOIRES">
+
+      <probleme code="0">0. Aucun problème</probleme>
+      <probleme code="1">1. Equipements ou accessoires non disponibles à temps</probleme>
+      <probleme code="2">2. Pertes d´équipements ou d´accessoires</probleme>
+      <probleme code="3">3. Vol d´équipements ou d´accessoires </probleme>
+      <probleme code="4">4. Equipements  ou accessoires endommagés</probleme>
+      <probleme code="9">9. Autre</probleme>
+
+
+      <solution code="1">1. Requête au RD pour disponbilité équipements et accessoires</solution>
+      <solution code="2">2. Tenue régulière de l´inventaire et des états</solution>
+      <solution code="3">3. Requête intervention du RD</solution>
+      <solution code="4">4. Requête de remplacement auprès du Responsable départemental </solution>
+      <solution code="9">9. Autre</solution>
+
+    </sousDomaine>
+
+  </domaine>
+
+  <suivi code="1">1. Superviseur de district </suivi>
+  <suivi code="2">2. Responsable départemental  </suivi>
+  <suivi code="3">3. Bureau central </suivi>
+  
+
+</rapports>

@@ -24,6 +24,7 @@ namespace ht.ihsi.rgph.epc.database.repositories
         private GenericRepository<tbl_individu> individuRepository;
         private GenericRepository<tbl_AncienMembre> ancienMembreRepository;
         private GenericRepository<tbl_rapportfinal> rapportFinalRepository;
+        private GenericRepository<tbl_rapportrar> rapportAgentRecenseurRepository;
         private GenericRepository<tbl_pays> paysRepository;
         private GenericRepository<tbl_departement> departementRepository;
         private GenericRepository<tbl_commune> communeRepository;
@@ -40,6 +41,9 @@ namespace ht.ihsi.rgph.epc.database.repositories
         private GenericRepository<Tbl_Agent> agentRepository;
         private GenericRepository<Tbl_Sde> sdeRepository;
         private GenericRepository<Tbl_Materiel> materielRepository;
+        private GenericRepository<Tbl_RapportPersonnel> rapportPersonnelRepository;
+        private GenericRepository<Tbl_RprtDeroulement> rapportDeroulementRepository;
+        private GenericRepository<Tbl_DetailsRapport> detailsRapportDeroulementRepository;
         #endregion
 
         public MainRepository(string connectionString)
@@ -62,6 +66,17 @@ namespace ht.ihsi.rgph.epc.database.repositories
                     this.domaineEtudeRepository = new GenericRepository<tbl_domaine_etude>(context);
                 }
                 return domaineEtudeRepository;
+            }
+        }
+        public GenericRepository<tbl_rapportrar> RapportAgentRecenseurRepository
+        {
+            get
+            {
+                if (this.rapportAgentRecenseurRepository == null)
+                {
+                    this.rapportAgentRecenseurRepository = new GenericRepository<tbl_rapportrar>(context);
+                }
+                return rapportAgentRecenseurRepository;
             }
         }
         public GenericRepository<tbl_batiment> BatimentRepository
@@ -231,7 +246,31 @@ namespace ht.ihsi.rgph.epc.database.repositories
                 return vqsesRepository;
             }
         }
+#endregion
+        #region SUPERVISEUR DATABASE IMPLEMENTATION...
 
+        public GenericRepository<Tbl_DetailsRapport> DetailsRapportDeroulementRepository
+        {
+            get
+            {
+                if (this.detailsRapportDeroulementRepository == null)
+                {
+                    this.detailsRapportDeroulementRepository = new GenericRepository<Tbl_DetailsRapport>(this.supContext);
+                }
+                return this.detailsRapportDeroulementRepository;
+            }
+        }
+        public GenericRepository<Tbl_RprtDeroulement> RapportDeroulementRepository
+        {
+            get
+            {
+                if (this.rapportDeroulementRepository == null)
+                {
+                    this.rapportDeroulementRepository = new GenericRepository<Tbl_RprtDeroulement>(this.supContext);
+                }
+                return this.rapportDeroulementRepository;
+            }
+        }
         public GenericRepository<Tbl_Sde> SdeRepository
         {
             get
@@ -256,7 +295,18 @@ namespace ht.ihsi.rgph.epc.database.repositories
             }
 
         }
+        public GenericRepository<Tbl_RapportPersonnel> RapportPersonnelRepository
+        {
+            get
+            {
+                if (this.rapportPersonnelRepository == null)
+                {
+                    this.rapportPersonnelRepository = new GenericRepository<Tbl_RapportPersonnel>(this.supContext);
+                }
+                return this.rapportPersonnelRepository;
+            }
 
+        }
         public GenericRepository<Tbl_Utilisateur> UtilisateurRepository
         {
             get

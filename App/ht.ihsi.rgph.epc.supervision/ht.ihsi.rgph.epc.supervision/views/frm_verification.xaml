@@ -249,19 +249,18 @@
                     </dx:DXTabItem>
                 </dx:DXTabControl>
             </dx:DXTabItem>
-            <!--<dx:DXTabItem Header="Verification 1" Height="22" VerticalAlignment="Bottom">
+            <dx:DXTabItem Header="Verification 1" Height="22" VerticalAlignment="Bottom">
                 <dx:DXTabControl Margin="-2,0,1,-2">
                     <dx:DXTabItem Header="NON-REPONSE TOTALE">
                         <GroupBox Header="Verification Totale">
-                            <dxg:TreeListControl AutoGenerateColumns="AddNew"   Name="dtg_non_reponse_totale" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
-                                --><!--AutoGeneratingColumn="dtg_non_reponse_totale_AutoGeneratingColumn"--><!--
+                            <dxg:TreeListControl AutoGenerateColumns="AddNew" AutoGeneratingColumn="dtg_non_reponse_totale_AutoGeneratingColumn"  Name="dtg_non_reponse_totale" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
                                 <dxg:TreeListControl.View >
                                     <dxg:TreeListView  ShowNodeImages="True" ImageFieldName="Image"  NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListView1" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"   AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD">
-                                        --><!--<dxg:TreeListView.ContextMenu>
+                                        <dxg:TreeListView.ContextMenu>
                                             <ContextMenu >
                                                 <MenuItem Header="mymenu"></MenuItem>
                                             </ContextMenu>
-                                        </dxg:TreeListView.ContextMenu>--><!--
+                                        </dxg:TreeListView.ContextMenu>
                                         <dxg:TreeListView.RowCellMenuCustomizations>
                                             <dxb:BarButtonItem Name="deleteRowItem" Content="Supprimer" />
                                         </dxg:TreeListView.RowCellMenuCustomizations>
@@ -275,8 +274,7 @@
                     </dx:DXTabItem>
                     <dx:DXTabItem Header="NON-REPONSE PARTIELLE">
                         <GroupBox Header="Verification Partielle">
-                            <dxg:TreeListControl AutoGenerateColumns="AddNew"   Name="dtg_non_reponse_partielle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
-                                --><!--AutoGeneratingColumn="dtg_non_reponse_partielle_AutoGeneratingColumn"--><!--
+                           <dxg:TreeListControl AutoGenerateColumns="AddNew" AutoGeneratingColumn="dtg_non_reponse_partielle_AutoGeneratingColumn"   Name="dtg_non_reponse_partielle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionMode="Row">
                                 <dxg:TreeListControl.View >
                                     <dxg:TreeListView   ShowNodeImages="True" ImageFieldName="Image"  NavigationStyle="Row"  AllowPerPixelScrolling="True" TreeLineStyle="Solid" ShowTotalSummary="True" Name="treeListView_partielle" KeyFieldName="ID" ParentFieldName="ParentID" OpacityMask="#FF6EB6F1" AllowEditing="False"  AllowScrollAnimation="True" AutoWidth="True" WaitIndicatorType="Panel" AlternateRowBackground="#FFBEE9FD" />
                                 </dxg:TreeListControl.View>
@@ -288,10 +286,10 @@
                     </dx:DXTabItem>
                 </dx:DXTabControl>
 
-            </dx:DXTabItem>-->
-            <!--<dx:DXTabItem Header="Verification 2">
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Verification 2">
                 <dx:DXTabControl>
-                    <dx:DXTabItem Header="Compteur de Flags par Individu" Name="tabCompteurFlag" >
+                                    <dx:DXTabItem Header="Compteur de Flags par Individu" Name="tabCompteurFlag" GotFocus="tabCompteurFlag_GotFocus" >
                         <Grid>
                             <dx:LoadingDecorator Name="decoratorTab" IsSplashScreenShown="false" SplashScreenLocation="CenterScreen">
                             </dx:LoadingDecorator>
@@ -613,8 +611,9 @@ en fonction du nombre total de problèmes spécifié par groupe
                             </GroupBox>
                         </Grid>
                     </dx:DXTabItem>
-                    <dx:DXTabItem Header="Vérification de la codification" Name="tabCodification" GotFocus="tabCodification_GotFocus">
-                        <GroupBox Header="Codification">
+                    <dx:DXTabItem Header="Vérification de la codification" Name="tabCodification">
+                                        <!--GotFocus="tabCodification_GotFocus"-->
+                            <GroupBox Header="Codification">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="203*"/>
@@ -645,7 +644,7 @@ en fonction du nombre total de problèmes spécifié par groupe
                                                     </dxc:BarFullStackedSeries2D.PointOptions>
                                                 </dxc:BarFullStackedSeries2D>
 
-                                                --><!--
+                                                
                                                 <dxc:BarFullStackedSeries2D Name="pasDuToutPreCodifieAutre" DisplayName="Pas du tout Pré-Codifié (Autre)">
                                                     <dxc:BarFullStackedSeries2D.Model>
                                                         <dxc:Quasi3DBar2DModel />
@@ -661,7 +660,7 @@ en fonction du nombre total de problèmes spécifié par groupe
                                                             </dxc:PointOptions.ValueNumericOptions>
                                                         </dxc:PointOptions>
                                                     </dxc:BarFullStackedSeries2D.PointOptions>
-                                                </dxc:BarFullStackedSeries2D>--><!--
+                                                </dxc:BarFullStackedSeries2D>
                                                 <dxc:BarFullStackedSeries2D Name="partiellementPreCodifie" DisplayName="Partiellement Pré-Codifié">
                                                     <dxc:BarFullStackedSeries2D.Model>
                                                         <dxc:Quasi3DBar2DModel />
@@ -874,7 +873,7 @@ en fonction du nombre total de problèmes spécifié par groupe
                         </GroupBox>
                     </dx:DXTabItem>
                 </dx:DXTabControl>
-            </dx:DXTabItem>-->
+            </dx:DXTabItem>
         </dx:DXTabControl>
     </Grid>
 </UserControl>

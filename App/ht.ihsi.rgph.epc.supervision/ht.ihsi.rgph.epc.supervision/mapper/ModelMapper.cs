@@ -260,7 +260,48 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return listTo;
         }
+        public static RapportArModel MapTo(tbl_rapportrar rapportrar)
+        {
+            if (rapportrar != null)
+            {
+                return new RapportArModel
+                {
+                    RapportId = Convert.ToInt32(rapportrar.rapportId),
+                    BatimentId = Convert.ToInt32(rapportrar.batimentId),
+                    LogeId = Convert.ToInt32(rapportrar.logeId),
+                    MenageId = Convert.ToInt32(rapportrar.menageId),
+                    EmigreId = Convert.ToInt32(rapportrar.emigreId),
+                    DecesId = Convert.ToInt32(rapportrar.decesId),
+                    IndividuId = Convert.ToInt32(rapportrar.individuId),
+                    RapportModuleName = rapportrar.rapportModuleName,
+                    CodeQuestionStop = rapportrar.codeQuestionStop,
+                    VisiteNumber = Convert.ToInt32(rapportrar.visiteNumber),
+                    RaisonActionId = Convert.ToInt32(rapportrar.raisonActionId),
+                    AutreRaisonAction = rapportrar.autreRaisonAction,
+                    IsFieldAllFilled = Convert.ToBoolean(rapportrar.isFieldAllFilled),
+                    DateDebutCollecte = rapportrar.dateDebutCollecte,
+                    DateFinCollecte = rapportrar.dateFinCollecte,
+                    DureeSaisie = Convert.ToInt32(rapportrar.dureeSaisie),
+                    IsContreEnqueteMade = Convert.ToBoolean(rapportrar.isContreEnqueteMade),
+                    CodeAgentRecenceur = rapportrar.codeAgentRecenceur
+                };
+            }
+            return new RapportArModel();
+        }
 
+        public static List<RapportArModel> MapTo(List<tbl_rapportrar> listOf)
+        {
+            List<RapportArModel> rapports = new List<RapportArModel>();
+            if (listOf != null)
+            {
+                foreach (tbl_rapportrar rapt in listOf)
+                {
+                    rapports.Add(MapTo(rapt));
+                }
+
+            }
+            return rapports;
+        }
         public static RapportFinalModel MapTo(tbl_rapportfinal rapport)
         {
             RapportFinalModel model = new RapportFinalModel();
@@ -330,6 +371,238 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
         #endregion
 
         #region TABLES SUPERVISEURS
+        /// <summary>
+        /// MapTo RapportPersonnelModel
+        /// </summary>
+        /// <param name="rpt"></param>
+        /// <returns></returns>
+        public static RapportPersonnelModel MapTo(Tbl_RapportPersonnel rpt)
+        {
+            RapportPersonnelModel model = new RapportPersonnelModel();
+            if (rpt != null)
+            {
+                model.codeDistrict = rpt.codeDistrict;
+                model.comId = rpt.comId;
+                model.dateEvaluation = rpt.dateEvaluation;
+                model.deptId = rpt.deptId;
+                model.persId = rpt.persId.GetValueOrDefault().ToString();
+                model.q1 = rpt.q1;
+                model.q10 = rpt.q10;
+                model.q11 = rpt.q11;
+                model.q12 = rpt.q12;
+                model.q13 = rpt.q13;
+                model.q14 = rpt.q14;
+                model.q15 = rpt.q15;
+                model.q9 = rpt.q9;
+                model.q8 = rpt.q8;
+                model.q7 = rpt.q7;
+                model.q6 = rpt.q6;
+                model.q5 = rpt.q5;
+                model.q4 = rpt.q4;
+                model.q3 = rpt.q3;
+                model.q2 = rpt.q2;
+                model.q1 = rpt.q1;
+                model.ReportSenderId = rpt.ReportSenderId.GetValueOrDefault().ToString();
+                model.score = rpt.score;
+                model.rapportId = rpt.rapportId;
+                model.RapportName = "Rapport-" + rpt.rapportId;
+            }
+            return model;
+        }
+        public static Tbl_RapportPersonnel MapTo(RapportPersonnelModel rpt)
+        {
+            Tbl_RapportPersonnel entite = new Tbl_RapportPersonnel();
+            if (rpt != null)
+            {
+                entite.codeDistrict = rpt.codeDistrict;
+                entite.comId = rpt.comId;
+                entite.dateEvaluation = rpt.dateEvaluation;
+                entite.deptId = rpt.deptId;
+                entite.persId = Convert.ToInt32(rpt.persId);
+                entite.q1 = rpt.q1;
+                entite.q10 = rpt.q10;
+                entite.q11 = rpt.q11;
+                entite.q12 = rpt.q12;
+                entite.q13 = rpt.q13;
+                entite.q14 = rpt.q14;
+                entite.q15 = rpt.q15;
+                entite.q9 = rpt.q9;
+                entite.q8 = rpt.q8;
+                entite.q7 = rpt.q7;
+                entite.q6 = rpt.q6;
+                entite.q5 = rpt.q5;
+                entite.q4 = rpt.q4;
+                entite.q3 = rpt.q3;
+                entite.q2 = rpt.q2;
+                entite.q1 = rpt.q1;
+                entite.ReportSenderId = Convert.ToInt32(rpt.ReportSenderId);
+                entite.score = rpt.score;
+                entite.rapportId = rpt.rapportId;
+            }
+            return entite;
+        }
+        public static RapportPersonnelModel MapToModel(RapportPersonnelModel model)
+        {
+            RapportPersonnelModel rpt = new RapportPersonnelModel();
+            if (model != null)
+            {
+                rpt.codeDistrict = model.codeDistrict;
+                rpt.comId = model.comId;
+                rpt.dateEvaluation = model.dateEvaluation;
+                rpt.deptId = model.deptId;
+                rpt.persId = model.persId;
+                rpt.q1 = model.q1;
+                rpt.q10 = model.q10;
+                rpt.q11 = model.q11;
+                rpt.q12 = model.q12;
+                rpt.q13 = model.q13;
+                rpt.q14 = model.q14;
+                rpt.q15 = rpt.q15;
+                rpt.q9 = model.q9;
+                rpt.q8 = model.q8;
+                rpt.q7 = model.q7;
+                rpt.q6 = model.q6;
+                rpt.q5 = model.q5;
+                rpt.q4 = model.q4;
+                rpt.q3 = model.q3;
+                rpt.q2 = model.q2;
+                rpt.q1 = model.q1;
+                rpt.ReportSenderId = model.ReportSenderId;
+                rpt.score = model.score;
+                rpt.rapportId = model.rapportId;
+            }
+            return rpt;
+        }
+        public static List<RapportPersonnelModel> MapTo(List<Tbl_RapportPersonnel> entities)
+        {
+            List<RapportPersonnelModel> listOf = new List<RapportPersonnelModel>();
+            if (entities != null)
+            {
+                foreach (Tbl_RapportPersonnel ent in entities)
+                {
+                    RapportPersonnelModel model = new RapportPersonnelModel();
+                    model = MapTo(ent);
+                    listOf.Add(model);
+                }
+            }
+            return listOf;
+        }
+        public static RapportDeroulementModel MapTo(Tbl_RprtDeroulement rpt)
+        {
+            RapportDeroulementModel model = new RapportDeroulementModel();
+            if (rpt != null)
+            {
+                model.CodeDistrict = rpt.CodeDistrict;
+                model.DateRapport = rpt.DateRapport;
+                model.RapportId = rpt.RapportId;
+                model.RapportName = "Rapport-" + rpt.RapportId;
+            }
+            return model;
+        }
+        public static RapportDeroulementModel MapToModel(RapportDeroulementModel model)
+        {
+            RapportDeroulementModel modelToMap = new RapportDeroulementModel();
+            if (model != null)
+            {
+                modelToMap.CodeDistrict = model.CodeDistrict;
+                modelToMap.DateRapport = model.DateRapport;
+                modelToMap.RapportId = model.RapportId;
+                modelToMap.RapportName = "Rapport-" + model.RapportId;
+            }
+            return modelToMap;
+        }
+        public static List<RapportDeroulementModel> MapTo(List<Tbl_RprtDeroulement> rpts)
+        {
+            List<RapportDeroulementModel> models = new List<RapportDeroulementModel>();
+            if (rpts != null)
+            {
+                foreach (Tbl_RprtDeroulement rpt in rpts)
+                {
+                    RapportDeroulementModel model = MapTo(rpt);
+                    models.Add(model);
+                }
+            }
+            return models;
+        }
+        public static DetailsRapportModel MapTo(Tbl_DetailsRapport rpt)
+        {
+            DetailsRapportModel model = new DetailsRapportModel();
+            if (rpt != null)
+            {
+                model.Commentaire = rpt.Commentaire;
+                model.DetailsRapportId = rpt.DetailsRapportId;
+                model.Domaine = rpt.Domaine;
+                model.Precisions = rpt.Precisions;
+                model.Probleme = rpt.Probleme;
+                model.RapportId = rpt.RapportId.GetValueOrDefault();
+                model.Solution = rpt.Solution;
+                model.SousDomaine = rpt.SousDomaine;
+                model.Suggestions = rpt.Suggestions;
+                model.Suivi = rpt.Suivi;
+            }
+            return model;
+        }
+        public static Tbl_DetailsRapport MapTo(DetailsRapportModel model)
+        {
+            Tbl_DetailsRapport rpt = new Tbl_DetailsRapport();
+            if (model != null)
+            {
+                rpt.Commentaire = model.Commentaire;
+                rpt.DetailsRapportId = model.DetailsRapportId;
+                rpt.Domaine = model.Domaine;
+                rpt.Precisions = model.Precisions;
+                rpt.Probleme = model.Probleme;
+                rpt.RapportId = model.RapportId;
+                rpt.Solution = model.Solution;
+                rpt.SousDomaine = model.SousDomaine;
+                rpt.Suggestions = model.Suggestions;
+                rpt.Suivi = model.Suivi;
+            }
+            return rpt;
+        }
+        public static List<DetailsRapportModel> MapTo(List<Tbl_DetailsRapport> rpts)
+        {
+            List<DetailsRapportModel> models = new List<DetailsRapportModel>();
+            if (rpts != null)
+            {
+                foreach (Tbl_DetailsRapport rpt in rpts)
+                {
+                    DetailsRapportModel model = MapTo(rpt);
+                    models.Add(model);
+                }
+            }
+            return models;
+        }
+        public static DetailsRapportModel MapToModel(DetailsRapportModel model)
+        {
+            DetailsRapportModel modelToMap = new DetailsRapportModel();
+            if (model != null)
+            {
+                modelToMap.Commentaire = model.Commentaire;
+                modelToMap.DetailsRapportId = model.DetailsRapportId;
+                modelToMap.Domaine = model.Domaine;
+                modelToMap.Precisions = model.Precisions;
+                modelToMap.Probleme = model.Probleme;
+                modelToMap.RapportId = model.RapportId;
+                modelToMap.Solution = model.Solution;
+                modelToMap.SousDomaine = model.SousDomaine;
+                modelToMap.Suggestions = model.Suggestions;
+                modelToMap.Suivi = model.Suivi;
+            }
+            return modelToMap;
+        }
+        public static Tbl_RprtDeroulement MapTo(RapportDeroulementModel rpt)
+        {
+            Tbl_RprtDeroulement entite = new Tbl_RprtDeroulement();
+            if (rpt != null)
+            {
+                entite.RapportId = rpt.RapportId;
+                entite.CodeDistrict = rpt.CodeDistrict;
+                entite.DateRapport = rpt.DateRapport;
+            }
+            return entite;
+
+        }
         public static UtilisateurModel MapTo(Tbl_Utilisateur entity)
         {
             UtilisateurModel model = new UtilisateurModel();
@@ -378,7 +651,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return model;
         }
-
         public static List<UtilisateurModel> MapTo(List<Tbl_Utilisateur> entities)
         {
             List<UtilisateurModel> models = new List<UtilisateurModel>();
@@ -393,7 +665,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return models;
         }
-
         public static List<SdeModel> MapTo(List<Tbl_Sde> entities)
         {
             List<SdeModel> models = new List<SdeModel>();
@@ -408,7 +679,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return models;
         }
-
         public static List<AgentModel> MapTo(List<Tbl_Agent> entities)
         {
             List<AgentModel> models = new List<AgentModel>();
@@ -423,7 +693,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return models;
         }
-
         public static Tbl_Utilisateur MapTo(UtilisateurModel model)
         {
             Tbl_Utilisateur entity = new Tbl_Utilisateur();
@@ -452,7 +721,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return entity;
         }
-
         public static Tbl_Agent MapTo(AgentModel model)
         {
             Tbl_Agent entity = new Tbl_Agent();
@@ -471,7 +739,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return entity;
         }
-
         public static MaterielModel MapTo(Tbl_Materiel entity)
         {
             MaterielModel model = new MaterielModel();
@@ -506,7 +773,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return entity;
         }
-
         public static MaterielModel MapModelToModel(MaterielModel mTMap)
         {
             MaterielModel model = new MaterielModel();
@@ -524,7 +790,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             }
             return model;
         }
-
         public static List<MaterielModel> MapTo(List<Tbl_Materiel> entities)
         {
             List<MaterielModel> list = new List<MaterielModel>();
@@ -539,8 +804,6 @@ namespace ht.ihsi.rgph.epc.supervision.mapper
             return list;
         }
         #endregion
-
-
 
     }
 }

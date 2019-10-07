@@ -19,5 +19,8 @@ namespace ht.ihsi.rgph.epc.database.repositories
         public virtual DbSet<Tbl_Utilisateur> Tbl_Utilisateur { get; set; }
         public virtual DbSet<Tbl_Sde> Tbl_Sde { get; set; }
         public virtual DbSet<Tbl_Agent> Tbl_Agent { get; set; }
+        public virtual DbSet<Tbl_RapportPersonnel> Tbl_RapportPersonnel { get; set; }
+        public virtual DbSet<Tbl_RprtDeroulement> Tbl_RprtDeroulement { get; set; }
+        public virtual DbSet<Tbl_DetailsRapport> Tbl_DetailsRapport { get; set; }
     }
 }

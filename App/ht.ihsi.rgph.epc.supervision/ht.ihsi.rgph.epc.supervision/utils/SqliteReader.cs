@@ -52,6 +52,75 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             }
             return new models.BatimentModel();
         }
+        /// <summary>
+        /// Retourne tous les batiments ayant au moins un objet vide
+        /// </summary>
+        /// <returns></returns>
+        public List<BatimentModel> GetAllBatimentsWithAtLeastOneBlankObject()
+        {
+            try
+            {
+                List<BatimentModel> finalBatimentsList = new List<BatimentModel>();
+                List<BatimentModel> batiments = GetAllBatimentNonTermine();
+                //Recherche les logements dans ces batiments
+                foreach (BatimentModel bat in batiments)
+                {
+                    //Recherche des logements par batiment
+                    List<LogementModel> getLogements = GetLogementIByBatiment(bat.batimentId);
+                    if (getLogements != null)
+                    {
+                        foreach (LogementModel logement in getLogements)
+                        {
+                            if (logement.qlin2StatutOccupation == 2 || logement.qlin2StatutOccupation == 3)
+                            {
+                                finalBatimentsList.Add(bat);
+                            }
+                        }
+                    }
+                }
+                return finalBatimentsList;
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllBatimentsWithAtLeastOneBlankObject" + ex.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Retourne tous les batiments qui sont inobservables (modalite=5)
+        /// </summary>
+        /// <returns></returns>
+        public List<BatimentModel> GetAllBatimentsInobservables()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.BatimentRepository.Find(b => b.qb1Etat == (int)Constant.EtatBatiment.Inobservable).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllBatimentsInobservables" + ex.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Retourne Tous les batiments pas finis
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public List<BatimentModel> GetAllBatimentNonTermine()
+        {
+            List<BatimentModel> result = new List<BatimentModel>();
+            try
+            {
+                result = ModelMapper.MapTo(repository.BatimentRepository.Find(b => b.statut == (int)Constant.StatutModule.PasFini).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReqder/GetAllBatimentNotFinished:" + ex.Message);
+            }
+            return result;
+        }
+
        #endregion
 
         #region Logements
@@ -82,7 +151,6 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             }
             return new List<models.LogementModel>();
         }
-
         public models.LogementModel GetLogementById(long logementId)
         {
             string methodName = "GetLogementById";
@@ -108,9 +176,50 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             }
             return null;
         }
+
+        public List<LogementModel> GetAllLogementNonTermines()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.LogementRepository.Find(l => l.statut != (int)Constant.StatutModule.Fini).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllLogementIndNotFinish" + ex.Message);
+            }
+            return new List<LogementModel>();
+        }
+        /// <summary>
+        /// Retourne les logements dont les occupants sont absents
+        /// </summary>
+        /// <returns>List GetAllLogementOccupantAbsent</returns>
+        public List<LogementModel> GetAllLogementOccupantAbsent()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.LogementRepository.Find(l => l.qlin2StatutOccupation == 2).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllLogementOccupantAbsent" + ex.Message);
+            }
+            return new List<LogementModel>();
+        }
         #endregion
 
         #region Menage
+        public List<MenageModel> GetAllMenageNonTermine()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.statut != (int)Constant.StatutModule.Fini).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllMenageNotFinish" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
         public List<models.MenageModel> GetAllMenagesModel()
         {
             string methodName = "GetAllMenagesModel";
@@ -166,7 +275,94 @@ namespace ht.ihsi.rgph.epc.supervision.utils
             }
             return new models.MenageModel();
         }
-        
+        public Flag compteurFlagParMenages(List<MenageModel> menages)
+        {
+            string methodName = "compteurFlagParMenages";
+            Flag flagMenage = new Flag();
+            try
+            {
+                if (menages != null)
+                {
+                    foreach (MenageModel menage in menages)
+                    {
+                        List<IndividuModel> individus = GetAllIndividusByMenage(menage.menageId);
+                        if (individus != null)
+                        {
+                            Flag flg = new Flag();
+                            flg = CountTotalFlag(individus);
+                            flagMenage.Flag_Aucun += flg.Flag_Aucun;
+                            flagMenage.Flag_1_4 += flg.Flag_1_4;
+                            flagMenage.Flag_5_14 += flg.Flag_5_14;
+                            flagMenage.Flag_15_26 += flg.Flag_15_26;
+                            flagMenage.Flag_27_47 += flg.Flag_27_47;
+                            flagMenage.Flag_48_70 += flg.Flag_48_70;
+                            flagMenage.Flag_71_130 += flg.Flag_71_130;
+                        }
+                    }
+                    return flagMenage;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return flagMenage;
+        }
+        public List<MenageModel> GetAllMenage_1_Personne()
+        {
+            string methodName = "GetAllMenage_1_Personne";
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant == 1).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
+
+        public List<MenageModel> GetAllMenage_2_3_Personnes()
+        {
+            string methodName = "GetAllMenage_2_3_Personnes";
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant == 2 || m.qm2TotalIndividuVivant == 3).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
+
+        public List<MenageModel> GetAllMenage_4_5_Personnes()
+        {
+            string methodName = "GetAllMenage_4_5_Personnes";
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant == 4 || m.qm2TotalIndividuVivant == 5).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
+
+        public List<MenageModel> GetAllMenage_6_Personnes()
+        {
+            string methodName = "GetAllMenage_6_Personnes";
+            try
+            {
+                return ModelMapper.MapTo(repository.MenageRepository.Find(m => m.qm2TotalIndividuVivant >= 6).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new List<MenageModel>();
+        }
         #endregion
 
         #region Individus
@@ -246,6 +442,42 @@ namespace ht.ihsi.rgph.epc.supervision.utils
                 log.Info("SqliteReader:/GetIndividuByMenageDetails" + ex.Message);
             }
             return null;
+        }
+        public string locateIndividu(IndividuModel individu)
+        {
+            string methodName = "locateIndividu";
+            try
+            {
+                BatimentModel bat = GetBatimentbyId(individu.batimentId.GetValueOrDefault());
+                LogementModel logement = GetLogementById(individu.logeId.GetValueOrDefault());
+                MenageModel menage = GetMenageById(individu.menageId.GetValueOrDefault());
+                if (menage != null)
+                {
+                    return "Batiman-" + bat.batimentId + "/Lojman-" + logement.qlin1NumeroOrdre + "/Menaj-" + menage.qm1NoOrdre + "/Endividi-" + individu.q1NoOrdre;
+                }
+                return "Batiman-" + bat.batimentId + "/Lojman-" + logement.qlin1NumeroOrdre + "/Endividi-" + individu.q1NoOrdre;
+            }
+            catch (Exception ex)
+            {
+                log.Info("Erreur/" + methodName + ":" + ex.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Retrouve les individus qui ne sont pas encore termines
+        /// </summary>
+        /// <returns></returns>
+        public List<IndividuModel> GetAllIndividuNonTermine()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.IndividuRepository.Find(i => i.isFieldAllFilled == 0).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllIndividuNotFinish" + ex.Message);
+            }
+            return new List<IndividuModel>();
         }
         #endregion
 
@@ -992,9 +1224,856 @@ namespace ht.ihsi.rgph.epc.supervision.utils
         }
         #endregion
 
+        #region CODIFICATION ET COMPTEUR DE FLAG
+        //public Codification getInformationForCodification()
+        //{
+        //    string methodName = "getInformationForCodification";
+        //    Codification _aCodififer = new Codification();
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = ModelMapper.MapToListModel(repository.MIndividuRepository.Find().ToList());
+        //        if (listOfIndividus.Count != 0)
+        //        {
+        //            foreach (IndividuModel ind in listOfIndividus)
+        //            {
+
+        //                #region Recherche des individus avec la P10
+        //                //P10=1
+        //                if (ind.Qp10LieuNaissance == 1 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        _aCodififer.P10_1 += 1;
+        //                    }
+        //                }
+        //                //p10=2
+        //                if (ind.Qp10LieuNaissance == 2 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (ind.Qp10CommuneNaissance == Constant.PA_KONNEN_KOMIN_OU_PEYI || ind.Qp10VqseNaissance == Constant.PA_KONNEN_SEKSYON_KOMINAL)
+        //                    {
+        //                        if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                        {
+        //                            _aCodififer.P10_2 += 1;
+        //                        }
+        //                    }
+
+        //                }
+        //                //p10=3
+        //                if (ind.Qp10LieuNaissance == 3 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (ind.Qp10PaysNaissance == Constant.PA_KONNEN_KOMIN_OU_PEYI)
+        //                    {
+        //                        if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                        {
+        //                            _aCodififer.P10_3 += 1;
+        //                        }
+        //                    }
+        //                }
+        //                //p10=4
+        //                if (ind.Qp10LieuNaissance == 4 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        _aCodififer.P10_4 += 1;
+        //                    }
+        //                }
+        //                #endregion
+
+        //                #region Recherche des individus avec la variable P12
+        //                //p12=1
+        //                if (ind.Qp12DomicileAvantRecensement == 1 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        _aCodififer.P12_1 += 1;
+        //                    }
+        //                }
+        //                //p12=2
+        //                if (ind.Qp12DomicileAvantRecensement == 2 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (ind.Qp12CommuneDomicileAvantRecensement == Constant.PA_KONNEN_KOMIN_OU_PEYI || ind.Qp12VqseDomicileAvantRecensement == Constant.PA_KONNEN_SEKSYON_KOMINAL)
+        //                    {
+        //                        if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                        {
+        //                            _aCodififer.P12_2 += 1;
+        //                        }
+        //                    }
+        //                }
+        //                //p12=3
+        //                if (ind.Qp12DomicileAvantRecensement == 3 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (ind.Qp12PaysDomicileAvantRecensement == Constant.PA_KONNEN_KOMIN_OU_PEYI)
+        //                    {
+        //                        if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                        {
+        //                            _aCodififer.P12_3 += 1;
+        //                        }
+        //                    }
+        //                }
+        //                //p12=4
+        //                if (ind.Qp12DomicileAvantRecensement == 4 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        _aCodififer.P12_4 += 1;
+        //                    }
+        //                }
+        //                #endregion
+
+        //                #region Recherche des individus avec la variavle A5
+        //                int typeBien = 0;
+        //                if (ind.Qa5TypeBienProduitParEntreprise != "")
+        //                    typeBien = Convert.ToInt32(ind.Qa5TypeBienProduitParEntreprise);
+        //                //A5 est codifie
+        //                if (typeBien < 40)
+        //                {
+        //                    _aCodififer.A5Codifie += 1;
+        //                }
+        //                //A5 =autre
+        //                if (typeBien == 40)
+        //                {
+        //                    _aCodififer.A5Autre += 1;
+        //                }
+        //                //A5 ne sait pas
+        //                if (typeBien == 41)
+        //                {
+        //                    _aCodififer.A5NeSaitPas += 1;
+        //                }
+        //                #endregion
+
+        //                #region Recherche des individus avec la variavle A7
+        //                int typeActivite = Convert.ToInt32(ind.Qa7FoncTravail);
+        //                //A7 est bien codifiee
+        //                if (typeActivite < 132)
+        //                {
+        //                    _aCodififer.A7Codifie += 1;
+        //                }
+        //                //A7 est codifiee a autre
+        //                if (typeActivite == 132)
+        //                {
+        //                    _aCodififer.A7Autre += 1;
+        //                }
+        //                //A7 est codifiee a ne sait pas
+        //                if (typeActivite == 133)
+        //                {
+        //                    _aCodififer.A7NeSaitPas += 1;
+        //                }
+        //                #endregion
+        //            }
+        //            _aCodififer.SommeP10PartiellementCodifie = _aCodififer.P10_2 + _aCodififer.P10_3;
+        //            _aCodififer.SommeP12PartiellementCodifie = _aCodififer.P12_2 + _aCodififer.P12_3;
+        //            return _aCodififer;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Codification();
+        //}
+        public Flag CountTotalFlag(List<IndividuModel> individus)
+        {
+            string methodName = "CountFlag";
+            try
+            {
+                Flag compteur = new Flag();
+                compteur.Individus = new List<IndividuModel>();
+                int numberOfProblemsTotal = 0;
+                foreach (IndividuModel ind in individus)
+                {
+                    int numberOfProblems = 0;
+
+                    #region Test date de naissance/age
+                    if (ind.q7DateNaissanceAnnee == 9999 && ind.q7DateNaissanceJour == 99 && ind.q7DateNaissanceMois == 99)
+                    {
+                        numberOfProblems += 1;
+                    }
+                    if (ind.q7DateNaissanceAnnee == 9999 && ind.q7DateNaissanceJour == 99 && ind.q7DateNaissanceMois == 99 && ind.q8Age != 999)
+                    {
+                        numberOfProblems += 1;
+                    }
+                    if (ind.q7DateNaissanceAnnee != 9999 && ind.q7DateNaissanceJour != 99 && ind.q7DateNaissanceMois != 99 && ind.q8Age == 999)
+                    {
+                        numberOfProblems += 1;
+                    }
+                    #endregion
+
+                    #region Niveau d'etude
+                    if (ind.q11NiveauEtude >= 3 && ind.q11NiveauEtude < 9 )
+                    {
+                        numberOfProblems += 1;
+                    }
+                    #endregion
+
+                    #region Fecondite
+                    //if (ind.qp4Sexe == (int)Constant.Sexe.Fi && ind.q8Age >= 13)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    //if (ind.qp4Sexe == (int)Constant.Sexe.Fi && ind.q8Age >= 13)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    //if (ind.qp4Sexe == (int)Constant.Sexe.Fi && ind.q8Age >= 13)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    #endregion
+
+                    #region Information sur la date de naissance du premier enfant
+                    //if (ind.qp4Sexe == (int)Constant.Sexe.Fi && ind.q8Age >= 13 )
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    #endregion
+
+                    #region Activite Economique
+                    //if (ind.q8Age >= 10 && ind.)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    //if (ind.Qp5bAge >= 10 && ind.Qa7FoncTravail == 99)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    //if (ind.Qp5bAge >= 10 && ind.Qa8EntreprendreDemarcheTravail == 10)
+                    //{
+                    //    numberOfProblems += 1;
+                    //}
+                    #endregion
+
+                    #region Test de coherence Age/Niveau Etude
+                    if (ind.q8Age >= 3 && ind.q8Age < 6 && ind.q11NiveauEtude > 3)
+                    {
+                        numberOfProblems += 1;
+                    }
+                    if (ind.q8Age >= 6 && ind.q8Age < 9 && ind.q11NiveauEtude > 5)
+                    {
+                        numberOfProblems += 1;
+                    }
+                    #endregion
+
+                    #region DECOMPTE
+                    if (numberOfProblems == 0)
+                        compteur.Flag0 += 1;
+                    if (numberOfProblems == 1)
+                        compteur.Flag1 += 1;
+                    if (numberOfProblems == 2)
+                        compteur.Flag2 += 1;
+                    if (numberOfProblems == 3)
+                        compteur.Flag3 += 1;
+                    if (numberOfProblems == 4)
+                        compteur.Flag4 += 1;
+                    if (numberOfProblems == 5)
+                        compteur.Flag5 += 1;
+                    if (numberOfProblems == 6)
+                        compteur.Flag6 += 1;
+                    if (numberOfProblems == 7)
+                        compteur.Flag7 += 1;
+                    if (numberOfProblems == 8)
+                        compteur.Flag8 += 1;
+                    if (numberOfProblems == 9)
+                        compteur.Flag9 += 1;
+                    if (numberOfProblems == 10)
+                        compteur.Flag10 += 1;
+                    if (numberOfProblems == 11)
+                        compteur.Flag11 += 1;
+                    if (numberOfProblems == 12)
+                        compteur.Flag12 += 1;
+                    if (numberOfProblems == 13)
+                    {
+                        compteur.Flag13 += 1;
+                        compteur.Individus.Add(ind);
+                    }
+                    numberOfProblemsTotal += numberOfProblems;
+                    #endregion
+                }
+                #region compteur pour les categories de menages
+                compteur.Total = numberOfProblemsTotal;
+                if (compteur.Total == 0)
+                    compteur.Flag_Aucun = 1;
+                if (compteur.Total >= 1 && compteur.Total <= 4)
+                    compteur.Flag_1_4 = 1;
+                if (compteur.Total > 4 && compteur.Total <= 14)
+                    compteur.Flag_5_14 = 1;
+                if (compteur.Total >= 15 && compteur.Total <= 26)
+                    compteur.Flag_15_26 = 1;
+                if (compteur.Total >= 27 && compteur.Total <= 47)
+                    compteur.Flag_27_47 = 1;
+                if (compteur.Total >= 48 && compteur.Total <= 70)
+                    compteur.Flag_48_70 = 1;
+                if (compteur.Total >= 71 && compteur.Total <= 130)
+                    compteur.Flag_71_130 = 1;
+                #endregion
+                return compteur;
+
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new Flag();
+        }
+        public Flag Count2FlagAgeDateNaissance()
+        {
+            string methodName = "Count2FlagAgeDateNaissance";
+            List<IndividuModel> individusWithFlags = new List<IndividuModel>();
+            int numberOfProblemsTotal = 0;
+            try
+            {
+                List<IndividuModel> listOfIndividus = GetAllIndividusModel();
+                Flag compteur = new Flag();
+                foreach (IndividuModel ind in listOfIndividus)
+                {
+                    int numberOfProblems = 0;
+                    #region Test date de naissance/age
+                    //Si on ne connait ni l'annee, le jour et le mois de naissance de la personne 
+                    if (ind.q7DateNaissanceAnnee == 9999 && ind.q7DateNaissanceJour == 99 && ind.q7DateNaissanceMois == 99)
+                    {
+                        numberOfProblems += 1;
+                        //Verifie si l'individu existe deja dans la liste
+                        if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                        {
+                            individusWithFlags.Add(ind);
+                        }
+                    }
+                    //Si on ne connait ni l'annee, le jour et le mois de naissance de la personne mais on connait son age
+                    if (ind.q7DateNaissanceAnnee == 9999 && ind.q7DateNaissanceJour == 99 && ind.q7DateNaissanceMois == 99 && ind.q8Age != 999)
+                    {
+                        numberOfProblems += 1;
+                        //Verifie si l'individu existe deja dans la liste
+                        if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                        {
+                            individusWithFlags.Add(ind);
+                        }
+                    }
+                    //Si on connait l'annee, le jour et le mois de naissance de la personne mais on ne connait pas son age
+                    if (ind.q7DateNaissanceAnnee != 9999 && ind.q7DateNaissanceJour != 99 && ind.q7DateNaissanceMois != 99 && ind.q8Age == 999)
+                    {
+                        numberOfProblems += 1;
+                        //Verifie si l'individu existe deja dans la liste
+                        if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                        {
+                            individusWithFlags.Add(ind);
+                        }
+                    }
+                    #endregion
+                    if (numberOfProblems == 0)
+                        compteur.Flag0 += 1;
+                    if (numberOfProblems == 1)
+                        compteur.Flag1 += 1;
+                    if (numberOfProblems == 2)
+                        compteur.Flag2 += 1;
+                    compteur.Individus = new List<IndividuModel>();
+                    compteur.Individus = individusWithFlags;
+                    numberOfProblemsTotal += numberOfProblems;
+                }
+                compteur.Total = numberOfProblemsTotal;
+                return compteur;
+
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new Flag();
+        }
+        public Flag CountFlagFecondite()
+        {
+            string methodName = "CountFlagFecondite";
+            List<IndividuModel> individusWithFlags = new List<IndividuModel>();
+            int numberOfProblemsTotal = 0;
+            try
+            {
+                List<IndividuModel> listOfIndividus = GetAllIndividusModel();
+                Flag compteur = new Flag();
+                foreach (IndividuModel ind in listOfIndividus)
+                {
+                    int numberOfProblems = 0;
+                    #region Fecondite
+                    ////Si on ne connait pas le nombre d'enfants nes vivants dans le menage
+                    //if (ind.qp4Sexe == (int)Constant.Sexe.Fi && ind.q8Age>= 13 && ind.Qf1aNbreEnfantNeVivantM == 99)
+                    //{
+                    //    numberOfProblems += 1;
+                    //    //Verifie si l'individu existe deja dans la liste
+                    //    if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                    //    {
+                    //        individusWithFlags.Add(ind);
+                    //    }
+                    //}
+                    ////Si on ne connait pas le nombre d'enfants de sexe feminin ne dans le menage
+                    //if (ind.Qp4Sexe == (int)Constant.Sexe.Fi && ind.Qp5bAge >= 13 && ind.Qf1bNbreEnfantNeVivantF == 99)
+                    //{
+                    //    numberOfProblems += 1;
+                    //    //Verifie si l'individu existe deja dans la liste
+                    //    if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                    //    {
+                    //        individusWithFlags.Add(ind);
+                    //    }
+                    //}
+                    ////Si on connait pas le nombre d'enfants de sexe masculin ne dans le menage
+                    //if (ind.Qp4Sexe == (int)Constant.Sexe.Fi && ind.Qp5bAge >= 13 && ind.Qf1bNbreEnfantNeVivantF == 99 && ind.Qf1aNbreEnfantNeVivantM == 99)
+                    //{
+                    //    numberOfProblems += 1;
+                    //    //Verifie si l'individu existe deja dans la liste
+                    //    if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+                    //    {
+                    //        individusWithFlags.Add(ind);
+                    //    }
+                    //}
+                    #endregion
+                    if (numberOfProblems == 0)
+                        compteur.Flag0 += 1;
+                    if (numberOfProblems == 1)
+                        compteur.Flag1 += 1;
+                    if (numberOfProblems == 2)
+                        compteur.Flag2 += 1;
+                    if (numberOfProblems == 3)
+                        compteur.Flag3 += 1;
+                    compteur.Individus = new List<IndividuModel>();
+                    compteur.Individus = individusWithFlags;
+                    numberOfProblemsTotal += numberOfProblems;
+                }
+                compteur.Total = numberOfProblemsTotal;
+                return compteur;
+
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+            }
+            return new Flag();
+        }
+        //public Flag CountFlagEmploi()
+        //{
+        //    string methodName = "CountFlagEmploi";
+        //    int numberOfProblemsTotal = 0;
+        //    List<IndividuModel> individusWithFlags = new List<IndividuModel>();
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = GetAllIndividus();
+        //        Flag compteur = new Flag();
+        //        foreach (IndividuModel ind in listOfIndividus)
+        //        {
+        //            int numberOfProblems = 0;
+        //            #region Activite Economique
+        //            //Si on ne connait le type de bien produit dans l'entreprise ou l'individu travail
+        //            if (ind.Qp5bAge >= 10 && ind.Qa5TypeBienProduitParEntreprise == "99")
+        //            {
+        //                numberOfProblems += 1;
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+        //                {
+        //                    individusWithFlags.Add(ind);
+        //                }
+        //            }
+        //            //Si on connait pas le poste qu'occupe l'individu dans l'entreprise
+        //            if (ind.Qp5bAge >= 10 && ind.Qa7FoncTravail == 99)
+        //            {
+        //                numberOfProblems += 1;
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+        //                {
+        //                    individusWithFlags.Add(ind);
+        //                }
+        //            }
+        //            //S'il n'a pas entrepris de demarche pour pouvoir travailler
+        //            if (ind.Qp5bAge >= 10 && ind.Qa8EntreprendreDemarcheTravail == 10)
+        //            {
+        //                numberOfProblems += 1;
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusWithFlags, ind) == false)
+        //                {
+        //                    individusWithFlags.Add(ind);
+        //                }
+        //            }
+        //            #endregion
+        //            if (numberOfProblems == 0)
+        //                compteur.Flag0 += 1;
+        //            if (numberOfProblems == 1)
+        //                compteur.Flag1 += 1;
+        //            if (numberOfProblems == 2)
+        //                compteur.Flag2 += 1;
+        //            if (numberOfProblems == 3)
+        //                compteur.Flag3 += 1;
+        //            compteur.Individus = new List<IndividuModel>();
+        //            compteur.Individus = individusWithFlags;
+        //            numberOfProblemsTotal += numberOfProblems;
+        //        }
+        //        compteur.Total = numberOfProblemsTotal;
+        //        return compteur;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Flag();
+        //}
+        //public Flag getIndividuWithP10()
+        //{
+        //    string methodName = "getIndividuWithP10";
+        //    List<IndividuModel> individusCodification = new List<IndividuModel>();
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = GetAllIndividusModel();
+        //        Flag compteur = new Flag();
+        //        foreach (IndividuModel ind in listOfIndividus)
+        //        {
+        //            #region Recherche des individus avec la P10
+        //            //P10=1
+        //            //if (ind.Qp10LieuNaissance == 1 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            //{
+        //            //    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //            //    {
+        //            //        //Verifie si l'individu existe deja dans la liste
+        //            //        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //            //        {
+        //            //            individusCodification.Add(ind);
+        //            //        }
+        //            //    }
+        //            //}
+        //            //p10=2
+        //            if (ind.Qp10LieuNaissance == 2 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (ind.Qp10CommuneNaissance == Constant.PA_KONNEN_KOMIN_OU_PEYI || ind.Qp10VqseNaissance == Constant.PA_KONNEN_SEKSYON_KOMINAL)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        //Verifie si l'individu existe deja dans la liste
+        //                        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                        {
+        //                            individusCodification.Add(ind);
+        //                        }
+        //                    }
+        //                }
+
+        //            }
+        //            //p10=3
+        //            if (ind.Qp10LieuNaissance == 3 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (ind.Qp10PaysNaissance == Constant.PA_KONNEN_KOMIN_OU_PEYI)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        //Verifie si l'individu existe deja dans la liste
+        //                        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                        {
+        //                            individusCodification.Add(ind);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            //p10=4
+        //            if (ind.Qp10LieuNaissance == 4 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                {
+        //                    //Verifie si l'individu existe deja dans la liste
+        //                    if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                    {
+        //                        individusCodification.Add(ind);
+        //                    }
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        compteur.Individus = new List<IndividuModel>();
+        //        compteur.Individus = individusCodification;
+        //        return compteur;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Flag();
+        //}
+        //public Flag getIndividuWithP12()
+        //{
+        //    string methodName = "getIndividuWithP12";
+        //    List<IndividuModel> individusCodification = new List<IndividuModel>();
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = GetAllIndividus();
+        //        Flag compteur = new Flag();
+        //        foreach (IndividuModel ind in listOfIndividus)
+        //        {
+        //            #region Recherche des individus avec la variable P12
+        //            //p12=1
+        //            //if (ind.Qp12DomicileAvantRecensement == 1 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            //{
+        //            //    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //            //    {
+        //            //        //Verifie si l'individu existe deja dans la liste
+        //            //        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //            //        {
+        //            //            individusCodification.Add(ind);
+        //            //        }
+        //            //    }
+        //            //}
+        //            //p12=2
+        //            if (ind.Qp12DomicileAvantRecensement == 2 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (ind.Qp12CommuneDomicileAvantRecensement == Constant.PA_KONNEN_KOMIN_OU_PEYI || ind.Qp12VqseDomicileAvantRecensement == Constant.PA_KONNEN_SEKSYON_KOMINAL)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        //Verifie si l'individu existe deja dans la liste
+        //                        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                        {
+        //                            individusCodification.Add(ind);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            //p12=3
+        //            if (ind.Qp12DomicileAvantRecensement == 3 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (ind.Qp12PaysDomicileAvantRecensement == Constant.PA_KONNEN_KOMIN_OU_PEYI)
+        //                {
+        //                    if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                    {
+        //                        //Verifie si l'individu existe deja dans la liste
+        //                        if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                        {
+        //                            individusCodification.Add(ind);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            //p12=4
+        //            if (ind.Qp12DomicileAvantRecensement == 4 && ind.Statut == (int)Constant.StatutModule.Fini)
+        //            {
+        //                if (GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.Fini || GetBatimentbyId(ind.BatimentId).Statut == (int)Constant.StatutModule.PasFini)
+        //                {
+        //                    //Verifie si l'individu existe deja dans la liste
+        //                    if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                    {
+        //                        individusCodification.Add(ind);
+        //                    }
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        compteur.Individus = new List<IndividuModel>();
+        //        compteur.Individus = individusCodification;
+        //        return compteur;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Flag();
+        //}
+        //public Flag getIndividuWithA5()
+        //{
+        //    List<IndividuModel> individusCodification = new List<IndividuModel>();
+        //    string methodName = "getIndividuWithA5";
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = GetAllIndividus();
+        //        Flag compteur = new Flag();
+
+        //        foreach (IndividuModel ind in listOfIndividus)
+        //        {
+        //            #region Recherche des individus avec la variavle A5
+        //            int typeBien = 0;
+        //            if (ind.Qa5TypeBienProduitParEntreprise != "")
+        //            {
+        //                typeBien = Convert.ToInt32(ind.Qa5TypeBienProduitParEntreprise);
+        //            }
+
+        //            ////A5 est codifie
+        //            //if (typeBien < 40)
+        //            //{
+        //            //    //Verifie si l'individu existe deja dans la liste
+        //            //    if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //            //    {
+        //            //        individusCodification.Add(ind);
+        //            //    }
+        //            //}
+        //            //A5 =autre
+        //            if (typeBien == 40)
+        //            {
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                {
+        //                    individusCodification.Add(ind);
+        //                }
+        //            }
+        //            //A5 ne sait pas
+        //            if (typeBien == 41)
+        //            {
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                {
+        //                    individusCodification.Add(ind);
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        compteur.Individus = new List<IndividuModel>();
+        //        compteur.Individus = individusCodification;
+        //        return compteur;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Flag();
+        //}
+        //public Flag getIndividuWithA7()
+        //{
+        //    List<IndividuModel> individusCodification = new List<IndividuModel>();
+        //    string methodName = "getIndividuWithA7";
+        //    try
+        //    {
+        //        List<IndividuModel> listOfIndividus = GetAllIndividus();
+        //        Flag compteur = new Flag();
+        //        foreach (IndividuModel ind in listOfIndividus)
+        //        {
+        //            #region Recherche des individus avec la variavle A7
+        //            //int typeActivite = 0;
+        //            int typeActivite = Convert.ToInt32(ind.Qa7FoncTravail);
+        //            ////A7 est bien codifiee
+        //            //if (typeActivite < 132)
+        //            //{
+        //            //    _aCodififer.A7Codifie += 1;
+        //            //}
+        //            //A7 est codifiee a autre
+        //            if (typeActivite == 132)
+        //            {
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                {
+        //                    individusCodification.Add(ind);
+        //                }
+        //            }
+        //            //A7 est codifiee a ne sait pas
+        //            if (typeActivite == 133)
+        //            {
+        //                //Verifie si l'individu existe deja dans la liste
+        //                if (Utilities.isIndividuExist(individusCodification, ind) == false)
+        //                {
+        //                    individusCodification.Add(ind);
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        compteur.Individus = new List<IndividuModel>();
+        //        compteur.Individus = individusCodification;
+        //        return compteur;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Info("SqliteReader/" + methodName + ":" + ex.Message);
+        //    }
+        //    return new Flag();
+        //}
+        #endregion
+
+        #region RAPPORT AGENT RECENSEUR
+        /// <summary>
+        /// Retourne tous les rapports dresses par l'agent recenseur
+        /// </summary>
+        /// <returns></returns>
+        public List<RapportArModel> GetAllRptAgentRecenseur()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find().ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseur:" + ex.Message);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Retourne tous les rapports dresses par l'agent recenseur sur un batiment
+        /// </summary>
+        /// <param name="batimentId"></param>
+        /// <returns></returns>
+        public List<RapportArModel> GetAllRptAgentRecenseurByBatiment(long batimentId)
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find(b => b.batimentId == batimentId).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseurByBatiment:" + ex.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Retourne tous les rapports dresses par l'agent recenseur sur un logement
+        /// </summary>
+        /// <param name="logeId"></param>
+        /// <returns></returns>
+        public List<RapportArModel> GetAllRptAgentRecenseurByLogement(long logeId)
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find(l => l.logeId == logeId).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseurByLogement:" + ex.Message);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Retourne tous les rapports dresses par l'agent recenseur sur un menage
+        /// </summary>
+        /// <param name="menageId"></param>
+        /// <returns></returns>
+        public List<RapportArModel> GetAllRptAgentRecenseurByMenage(long menageId)
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find(m => m.menageId == menageId).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseurByMenage:" + ex.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Retourne tous les rapports pour lesquels au moins un objet n'est pas termine
+        /// </summary>
+        /// <returns></returns>
+        public List<RapportArModel> GetAllRptAgentRecenseurForNotFinishedObject()
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find(r => r.raisonActionId > 15).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseurForNotFinishedObject:" + ex.Message);
+            }
+            return null;
+        }
+
+        public List<RapportArModel> GetAllRptAgentRecenseurByIndividu(long individuId)
+        {
+            try
+            {
+                return ModelMapper.MapTo(repository.RapportAgentRecenseurRepository.Find(r => r.individuId == individuId).ToList());
+            }
+            catch (Exception ex)
+            {
+                log.Info("SqliteReader:/GetAllRptAgentRecenseurByIndividu:" + ex.Message);
+            }
+            return null;
+        }
+        #endregion
 
 
 
-        
    }
 }

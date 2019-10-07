@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=D:\WORKSPACE\CSHARP\DESKSTOP_APPLICATION\AppSuperviseurEpc\App\ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.database\data\rgph_epc-db.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=F:\workspace\C#\Desktop\AppSuperviseurEpc\App\ht.ihsi.rgph.epc.supervision\ht.ihsi.rgph.epc.supervision\bin\Release\Data\rgph_epc-db.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Tbl_Agent">
           <Key>
             <PropertyRef Name="AgentId" />
@@ -20,6 +20,21 @@
           <Property Name="Telephone" Type="nvarchar" MaxLength="2147483647" />
           <Property Name="Email" Type="nvarchar" MaxLength="2147483647" />
         </EntityType>
+        <EntityType Name="Tbl_DetailsRapport">
+          <Key>
+            <PropertyRef Name="DetailsRapportId" />
+          </Key>
+          <Property Name="DetailsRapportId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RapportId" Type="integer" />
+          <Property Name="Domaine" Type="integer" Nullable="false" />
+          <Property Name="SousDomaine" Type="integer" Nullable="false" />
+          <Property Name="Probleme" Type="integer" />
+          <Property Name="Solution" Type="integer" />
+          <Property Name="Precisions" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Suggestions" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Suivi" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Commentaire" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
         <EntityType Name="Tbl_Materiel">
           <Key>
             <PropertyRef Name="MaterielId" />
@@ -33,6 +48,43 @@
           <Property Name="DateAssignation" Type="nvarchar" MaxLength="2147483647" />
           <Property Name="IsConfigured" Type="integer" />
           <Property Name="LastSynchronisation" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="Tbl_RapportPersonnel">
+          <Key>
+            <PropertyRef Name="rapportId" />
+          </Key>
+          <Property Name="rapportId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="persId" Type="integer" />
+          <Property Name="codeDistrict" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="comId" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="deptId" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="q1" Type="integer" />
+          <Property Name="q2" Type="integer" />
+          <Property Name="q3" Type="integer" />
+          <Property Name="q4" Type="integer" />
+          <Property Name="q5" Type="integer" />
+          <Property Name="q6" Type="integer" />
+          <Property Name="q7" Type="integer" />
+          <Property Name="q8" Type="integer" />
+          <Property Name="q9" Type="integer" />
+          <Property Name="q10" Type="integer" />
+          <Property Name="q11" Type="integer" />
+          <Property Name="q12" Type="integer" />
+          <Property Name="q13" Type="integer" />
+          <Property Name="q14" Type="integer" />
+          <Property Name="q15" Type="integer" />
+          <Property Name="q16" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="score" Type="integer" />
+          <Property Name="dateEvaluation" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="ReportSenderId" Type="integer" />
+        </EntityType>
+        <EntityType Name="Tbl_RprtDeroulement">
+          <Key>
+            <PropertyRef Name="RapportId" />
+          </Key>
+          <Property Name="RapportId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeDistrict" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="DateRapport" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
         </EntityType>
         <EntityType Name="Tbl_Sde">
           <Key>
@@ -59,7 +111,10 @@
         </EntityType>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Tbl_Agent" EntityType="Self.Tbl_Agent" store:Type="Tables" />
+          <EntitySet Name="Tbl_DetailsRapport" EntityType="Self.Tbl_DetailsRapport" store:Type="Tables" />
           <EntitySet Name="Tbl_Materiel" EntityType="Self.Tbl_Materiel" store:Type="Tables" />
+          <EntitySet Name="Tbl_RapportPersonnel" EntityType="Self.Tbl_RapportPersonnel" store:Type="Tables" />
+          <EntitySet Name="Tbl_RprtDeroulement" EntityType="Self.Tbl_RprtDeroulement" store:Type="Tables" />
           <EntitySet Name="Tbl_Sde" EntityType="Self.Tbl_Sde" store:Type="Tables" />
           <EntitySet Name="Tbl_Utilisateur" EntityType="Self.Tbl_Utilisateur" store:Type="Tables" />
         </EntityContainer>
@@ -81,6 +136,49 @@
           <Property Name="Cin" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tbl_Materiel">
+          <Key>
+            <PropertyRef Name="MaterielId" />
+          </Key>
+          <Property Name="MaterielId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imei" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Serial" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int64" />
+          <Property Name="DateAssignation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfigured" Type="Int64" />
+          <Property Name="LastSynchronisation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tbl_RapportPersonnel">
+          <Key>
+            <PropertyRef Name="rapportId" />
+          </Key>
+          <Property Name="rapportId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="persId" Type="Int64" />
+          <Property Name="codeDistrict" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="comId" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="deptId" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="q1" Type="Int64" />
+          <Property Name="q2" Type="Int64" />
+          <Property Name="q3" Type="Int64" />
+          <Property Name="q4" Type="Int64" />
+          <Property Name="q5" Type="Int64" />
+          <Property Name="q6" Type="Int64" />
+          <Property Name="q7" Type="Int64" />
+          <Property Name="q8" Type="Int64" />
+          <Property Name="q9" Type="Int64" />
+          <Property Name="q10" Type="Int64" />
+          <Property Name="q11" Type="Int64" />
+          <Property Name="q12" Type="Int64" />
+          <Property Name="q13" Type="Int64" />
+          <Property Name="q14" Type="Int64" />
+          <Property Name="q15" Type="Int64" />
+          <Property Name="q16" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="score" Type="Int64" />
+          <Property Name="dateEvaluation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="ReportSenderId" Type="Int64" />
         </EntityType>
         <EntityType Name="Tbl_Sde">
           <Key>
@@ -107,23 +205,35 @@
         </EntityType>
         <EntityContainer Name="SupEpcContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Tbl_Agent" EntityType="Self.Tbl_Agent" />
+          <EntitySet Name="Tbl_Materiel" EntityType="Self.Tbl_Materiel" />
+          <EntitySet Name="Tbl_RapportPersonnel" EntityType="Self.Tbl_RapportPersonnel" />
           <EntitySet Name="Tbl_Sde" EntityType="Self.Tbl_Sde" />
           <EntitySet Name="Tbl_Utilisateur" EntityType="Self.Tbl_Utilisateur" />
-          <EntitySet Name="Tbl_Materiel" EntityType="Model.Tbl_Materiel" />
+          <EntitySet Name="Tbl_DetailsRapport" EntityType="Model.Tbl_DetailsRapport" />
+          <EntitySet Name="Tbl_RprtDeroulement" EntityType="Model.Tbl_RprtDeroulement" />
         </EntityContainer>
-        <EntityType Name="Tbl_Materiel">
+        <EntityType Name="Tbl_DetailsRapport">
           <Key>
-            <PropertyRef Name="MaterielId" />
+            <PropertyRef Name="DetailsRapportId" />
           </Key>
-          <Property Name="MaterielId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Imei" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="Serial" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="Model" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="Version" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="AgentId" Type="Int64" />
-          <Property Name="DateAssignation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="IsConfigured" Type="Int64" />
-          <Property Name="LastSynchronisation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="DetailsRapportId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RapportId" Type="Int64" />
+          <Property Name="Domaine" Type="Int64" Nullable="false" />
+          <Property Name="SousDomaine" Type="Int64" Nullable="false" />
+          <Property Name="Probleme" Type="Int64" />
+          <Property Name="Solution" Type="Int64" />
+          <Property Name="Precisions" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Suggestions" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Suivi" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Commentaire" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tbl_RprtDeroulement">
+          <Key>
+            <PropertyRef Name="RapportId" />
+          </Key>
+          <Property Name="RapportId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeDistrict" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="DateRapport" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -144,6 +254,51 @@
                 <ScalarProperty Name="Cin" ColumnName="Cin" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Materiel">
+            <EntityTypeMapping TypeName="Model.Tbl_Materiel">
+              <MappingFragment StoreEntitySet="Tbl_Materiel">
+                <ScalarProperty Name="MaterielId" ColumnName="MaterielId" />
+                <ScalarProperty Name="Imei" ColumnName="Imei" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="DateAssignation" ColumnName="DateAssignation" />
+                <ScalarProperty Name="IsConfigured" ColumnName="IsConfigured" />
+                <ScalarProperty Name="LastSynchronisation" ColumnName="LastSynchronisation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_RapportPersonnel">
+            <EntityTypeMapping TypeName="Model.Tbl_RapportPersonnel">
+              <MappingFragment StoreEntitySet="Tbl_RapportPersonnel">
+                <ScalarProperty Name="rapportId" ColumnName="rapportId" />
+                <ScalarProperty Name="persId" ColumnName="persId" />
+                <ScalarProperty Name="codeDistrict" ColumnName="codeDistrict" />
+                <ScalarProperty Name="comId" ColumnName="comId" />
+                <ScalarProperty Name="deptId" ColumnName="deptId" />
+                <ScalarProperty Name="q1" ColumnName="q1" />
+                <ScalarProperty Name="q2" ColumnName="q2" />
+                <ScalarProperty Name="q3" ColumnName="q3" />
+                <ScalarProperty Name="q4" ColumnName="q4" />
+                <ScalarProperty Name="q5" ColumnName="q5" />
+                <ScalarProperty Name="q6" ColumnName="q6" />
+                <ScalarProperty Name="q7" ColumnName="q7" />
+                <ScalarProperty Name="q8" ColumnName="q8" />
+                <ScalarProperty Name="q9" ColumnName="q9" />
+                <ScalarProperty Name="q10" ColumnName="q10" />
+                <ScalarProperty Name="q11" ColumnName="q11" />
+                <ScalarProperty Name="q12" ColumnName="q12" />
+                <ScalarProperty Name="q13" ColumnName="q13" />
+                <ScalarProperty Name="q14" ColumnName="q14" />
+                <ScalarProperty Name="q15" ColumnName="q15" />
+                <ScalarProperty Name="q16" ColumnName="q16" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="dateEvaluation" ColumnName="dateEvaluation" />
+                <ScalarProperty Name="ReportSenderId" ColumnName="ReportSenderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -172,18 +327,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tbl_Materiel">
-            <EntityTypeMapping TypeName="Model.Tbl_Materiel">
-              <MappingFragment StoreEntitySet="Tbl_Materiel">
-                <ScalarProperty Name="LastSynchronisation" ColumnName="LastSynchronisation" />
-                <ScalarProperty Name="IsConfigured" ColumnName="IsConfigured" />
-                <ScalarProperty Name="DateAssignation" ColumnName="DateAssignation" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Serial" ColumnName="Serial" />
-                <ScalarProperty Name="Imei" ColumnName="Imei" />
-                <ScalarProperty Name="MaterielId" ColumnName="MaterielId" />
+          <EntitySetMapping Name="Tbl_DetailsRapport">
+            <EntityTypeMapping TypeName="Model.Tbl_DetailsRapport">
+              <MappingFragment StoreEntitySet="Tbl_DetailsRapport">
+                <ScalarProperty Name="Commentaire" ColumnName="Commentaire" />
+                <ScalarProperty Name="Suivi" ColumnName="Suivi" />
+                <ScalarProperty Name="Suggestions" ColumnName="Suggestions" />
+                <ScalarProperty Name="Precisions" ColumnName="Precisions" />
+                <ScalarProperty Name="Solution" ColumnName="Solution" />
+                <ScalarProperty Name="Probleme" ColumnName="Probleme" />
+                <ScalarProperty Name="SousDomaine" ColumnName="SousDomaine" />
+                <ScalarProperty Name="Domaine" ColumnName="Domaine" />
+                <ScalarProperty Name="RapportId" ColumnName="RapportId" />
+                <ScalarProperty Name="DetailsRapportId" ColumnName="DetailsRapportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_RprtDeroulement">
+            <EntityTypeMapping TypeName="Model.Tbl_RprtDeroulement">
+              <MappingFragment StoreEntitySet="Tbl_RprtDeroulement">
+                <ScalarProperty Name="DateRapport" ColumnName="DateRapport" />
+                <ScalarProperty Name="CodeDistrict" ColumnName="CodeDistrict" />
+                <ScalarProperty Name="RapportId" ColumnName="RapportId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -201,7 +366,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />

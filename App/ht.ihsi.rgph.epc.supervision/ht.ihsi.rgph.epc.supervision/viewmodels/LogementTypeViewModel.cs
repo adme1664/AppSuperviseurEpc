@@ -20,7 +20,7 @@ namespace ht.ihsi.rgph.epc.supervision.viewmodels
         }
 
         private BatimentViewModel _parent;
-        private SqliteDataReaderService service = null;
+        private SqliteDataReaderService service;
         public LogementTypeViewModel(LogementTypeModel _logementType, BatimentViewModel _parentView)
             : base(_parentView, true)
         {
